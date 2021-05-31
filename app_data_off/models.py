@@ -36,7 +36,7 @@ class Product(models.Model):
         return self.name
 
 
-class UserSustitut(models.Model):
+class UserProduct(models.Model):
     """ table between Substitut and User. """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
