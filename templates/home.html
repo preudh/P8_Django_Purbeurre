@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'fonts/fontawesome5-overrides.min.css' %}">
 
-    <!--  XXX -->
+    <!--  Cloudflare -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
 
@@ -26,16 +26,35 @@
 
 <body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="57">
     <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav" style="border-color: #f8f6f6;background: #c45525;">
-        <div class="container"><img src="{% static 'img/logo_pur_beurre.png' %}"  style="height: 49px;"><a class="navbar-brand" href="#page-top">PUR BEURRE</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-align-justify"></i></button>
-            <div class="input-group"><input class="form-control" type="text" style="width: 12.609px;opacity: 1;background: var(--bs-white);"><button class="btn btn-primary" type="button">Chercher</button></div>
+        <div class="container"><img src="{% static 'img/logo_pur_beurre.png' %}"  style="height: 49px;"><a class="navbar-brand" href="#page-top">PUR BEURRE</a>
+            <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-align-justify"></i></button>
+                <div class="input-group"><input class="form-control" type="text" style="width: 12.609px;opacity: 1;background: var(--bs-white);">
+                    <button class="btn btn-primary" type="button">Chercher</button>
+                </div>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="#myaccount"><div>
-<i class="fas fa-user-alt fa-2x"></i>
-</div></a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="#deconnect"></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#myaccount">
+                            <div>
+                                <i class="fas fa-user-alt fa-2x"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#myproduct">
+                            <div>
+                                <i class="fas fa-carrot fa-2x"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#deconnect">
+                            <div>
+                                <i class="fas fa-sign-out-alt fa-2x"></i>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -47,6 +66,9 @@
                     <h1 class="text-uppercase" style="opacity: 1;"><strong style="margin: 19px;padding: 18px;"><br>DU GRAS, OUI, MAIS DE QUALITE!<br><br><br></strong></h1>
                     <hr>
                     <p class="text-faded mb-5" style="font-size: 48.4px;color: var(--bs-light);font-family: 'Open Sans', sans-serif;text-align: center;"><br><strong>Trouvez un produit de substitution pour ceux que vous consommez tous les jours</strong><br><br></p>
+                </div>
+                <div class="input-group"><input class="form-control" type="text" placeholder="Entrez le nom de la catégorie" style="width: 12.609px;opacity: 1;background: var(--bs-white);">
+                    <button class="btn btn-primary" type="button">Chercher</button>
                 </div>
             </div>
         </div>
