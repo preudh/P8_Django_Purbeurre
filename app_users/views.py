@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 
 def login(request):
+    # create LoginForm() class instance
     loginform = LoginForm()
     return render(request, 'login.html', {'loginform': loginform})
 
