@@ -3,31 +3,32 @@ from a class inheriting from a parent class provided by Django. The attributes a
 to the form fields."""
 
 from django import forms
+from P8_Django_Purbeurre.models import User
 
 
 # create login form
 class LoginForm(forms.Form):
-    username = forms.CharField(label="username", max_length=50)
-    password = forms.CharField(label="password", widget=forms.PasswordInput)
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super(LoginForm, self).clean()
+        username = cleaned_data('username')
+        password = cleaned_data("password")
+
+        # check that the two fields are correct
+        if username and password:
+            result = User.objects.filter(username=username, password=password)
+            if len(result) != 1:
+                raise forms.ValidationError('username ou mot de pas erroné')
+
+        return cleaned_data
 
 
 # create account
 class RegisterForm(forms.Form):
-    name = forms.CharField(
-        label="Name",
-        # used the attribute form control to take advantage of bootstrap sizing components
-        widget=forms.TextInput(attrs={'class': 'form-control'}), )
-    email = forms.EmailField(
-        label='Email',
-        max_length=100,
-        widget=forms.EmailInput(attrs={'class': 'form-control'}),
-        # the field is required
-        required=True)
+    username = forms.CharField(widget=forms.TextInput)
+    email = forms.EmailField(max_length=100, widget=forms.EmailInput),
     # Passwordfield does not exist so that one must use it in widget
-    password = forms.CharField(
-        label="Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        required=True)
-
-
+    password = forms.CharField(widget=forms.PasswordInput)
 

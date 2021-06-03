@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{#{% extends "base.html" %}#}
 
-{% block content %}
-<form action="loginForm" method="post">
+{#{% block content %}#}
+<form action="/login/" method="post">
     {% csrf_token %}
     {{ loginform.as_p }}
     <p>
@@ -9,5 +9,7 @@
             <a href="register.html"> Créer un compte</a>
     </p>
 </form>
-{% endblock%}
+{#{% endblock%}#}
+
+
 
