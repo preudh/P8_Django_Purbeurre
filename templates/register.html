@@ -3,7 +3,7 @@
 {#{% block content %}#}
 <form action="/register/" method="post">
     {% csrf_token %}
-    {{ resgister.as_p }}
+    {{ register }}
     <p>
         <input type="submit" value="S'enregister" />
     </p>

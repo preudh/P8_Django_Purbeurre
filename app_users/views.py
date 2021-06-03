@@ -12,6 +12,10 @@ def login(request):
 
 def register(request):
     # register = RegisterForm()
+    print(request.method)
+    if request.method == 'GET':
+        register = RegisterForm()
+        return render(request, 'register.html', {'register': register})
     if len(request.POST) > 0:
         register = RegisterForm(request.POST)
         if register.is_valid():
