@@ -1,38 +1,79 @@
 # Create your views here.
+# user object authentication system
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+# allows to temporarily store messages in one request and retrieve them for display in a subsequent request
+# from django.contrib import messages
+# from django.shortcuts import render, redirect
+# # Use authenticate() to verify username and password for the default case
+# from django.contrib.auth import authenticate, login
+# # from app_users.forms import LoginForm, CustomUserCreationForm
+# from app_users.forms import NewUserForm
 
-from app_users.forms import LoginForm, RegisterForm
+
+# def login_view(request):
+#     if request.method == 'POST':
+#         form = LoginForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password']
+#             user = authenticate(request, username=username, password=password)
+#             if user is not None and user.is_active:
+#                 login(request, user)
+#                 # redirect to the success page home.html
+#                 return render(request, 'home.html')
+#             else:
+#                 # Return an 'invalid login' error message.
+#                 messages.error(request, "Identifiants invalides")
+#                 return render(request, 'login.html', {'form': form})
+#     return render(request, 'login.html')
+#
+#
+# def register_view(request):
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Account created successfully')
+#             return redirect('login')
+#     else:
+#         form = CustomUserCreationForm()
+#     return render(request, 'register.html', {'form': form})
+
 from django.shortcuts import render, redirect
+from .forms import NewUserForm
+from django.contrib.auth import login, authenticate  # add this
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm  # add this
 
 
-def login(request):
-    # create LoginForm() class instance
-    if len(request.POST) > 0:  # test if form is sent
-        # creation of an object LoginForm type to which one pass it POST data of the request HTTP
-        login = LoginForm(request.POST)
-        if login.is_valid():  # method to validate all form fields
-            return redirect('/home')  # if form validated, user is redirected to home page
+def register_request(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful.")
+            return redirect("home")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = NewUserForm
+    return render(request=request, template_name="register.html", context={"register_form": form})
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("main:homepage")
+            else:
+                messages.error(request, "Invalid username or password.")
         else:
-            # display again login.html with incorrect fields
-            return render(request, 'login.html', {'login': login})
-    else:
-        # creation of an blank object LoginForm passed to template
-        login = LoginForm()
-        return render(request, 'login.html', {'login': login})
-
-
-def register(request):
-    # register = RegisterForm()
-    # print(request.method)
-    # if request.method == 'GET':
-    #     register = RegisterForm()
-    #     return render(request, 'register.html', {'register': register})
-    if len(request.POST) > 0:
-        register = RegisterForm(request.POST)
-        if register.is_valid():
-            register.save()
-            return redirect('/login')
-        else:
-            return render(request, 'register.html', {'register': register})
-    else:
-        register = RegisterForm()
-        return render(request, 'register.html', {'register': register})
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request=request, template_name="login.html", context={"login_form": form})
