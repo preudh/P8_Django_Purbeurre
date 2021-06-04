@@ -3,7 +3,7 @@
 {#{% block content %}#}
 <form action="/login/" method="post">
     {% csrf_token %}
-    {{ loginform.as_p }}
+    {{ login.as_p }}
     <p>
         <input type="submit" value="se connecter" />
             <a href="register.html"> Créer un compte</a>
