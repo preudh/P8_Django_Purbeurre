@@ -29,6 +29,7 @@
 </head>
 
 <body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="57">
+    <!-- Navigation -->
     <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav" style="border-color: #f8f6f6;background: #c45525;">
         <div class="container"><img src="{% static 'img/logo_pur_beurre.png' %}"  style="height: 49px;"><a class="navbar-brand" href="#page-top">PUR BEURRE</a>
             <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-align-justify"></i></button>
@@ -39,7 +40,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#myaccount">
+                        <a class="nav-link" href="{% url 'account' %}">
                             <div>
                                 <i class="fas fa-user-alt fa-2x"></i>
                             </div>
@@ -66,22 +67,33 @@
 {% block content %}
 {% endblock %}
 
-    <footer class="text-center" style="border-color: #f8f6f6;background: #c45525;>
+<!--     <footer class="text-center" style="border-color: #f8f6f6;background: #c45525;>
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-5 mb-lg-0">
-                    <h6 class="text-center">Mentions légales</h6>
+                    <h1 class="text-center">Mentions légales</h1>
                 </div>
                 <div class="col-md-4 mb-5 mb-lg-0">
-                    <h6 class="text- center">Patrice Preudhomme ©&nbsp;Brand 2021</h6>
+                    <h1 class="text- center">Patrice Preudhomme ©&nbsp;Brand 2021</h1>
                 </div>
                 <div class="col-md-4">
-                    <h6 class="text- center mb-4">Contacts</h6>
-                    <p class="lead mb-0"></p>
+                    <h1 class="text- center mb-4">Contacts</h1>
                 </div>
             </div>
         </div>
     </footer>
+-->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <a href="{% url 'termes' %}">Mentions légales</a>
+            <a href="{% url 'index' %}#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
 
      <!-- Option: Bootstrap JS -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
