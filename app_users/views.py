@@ -1,61 +1,31 @@
 # Create your views here.
-# user object authentication system
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-# allows to temporarily store messages in one request and retrieve them for display in a subsequent request
-# from django.contrib import messages
-# from django.shortcuts import render, redirect
-# # Use authenticate() to verify username and password for the default case
-# from django.contrib.auth import authenticate, login
-# # from app_users.forms import LoginForm, CustomUserCreationForm
-# from app_users.forms import NewUserForm
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=username, password=password)
-#             if user is not None and user.is_active:
-#                 login(request, user)
-#                 # redirect to the success page home.html
-#                 return render(request, 'home.html')
-#             else:
-#                 # Return an 'invalid login' error message.
-#                 messages.error(request, "Identifiants invalides")
-#                 return render(request, 'login.html', {'form': form})
-#     return render(request, 'login.html')
-#
-#
-# def register_view(request):
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Account created successfully')
-#             return redirect('login')
-#     else:
-#         form = CustomUserCreationForm()
-#     return render(request, 'register.html', {'form': form})
 
 from django.shortcuts import render, redirect
-from .forms import NewUserForm
-from django.contrib.auth import login, authenticate  # add this
+from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm  # add this
+# AuthenticationForm is the pre-built Django form logging in a user
+from django.contrib.auth.forms import AuthenticationForm
+
+# personal import
+from .forms import NewUserForm
 
 
 def register_request(request):
+    # checks to see if the form is being posted
     if request.method == "POST":
         form = NewUserForm(request.POST)
+        # checks to see if the form is valid
         if form.is_valid():
+            # If both are true, then the form information is saved under a user
             user = form.save()
+            # the user is logged in
             login(request, user)
+            #  the user is redirected to the homepage showing a success message.
             messages.success(request, "Registration successful.")
             return redirect("home")
+        # if the form is not valid, an error message is shown
         messages.error(request, "Unsuccessful registration. Invalid information.")
+    # if the request is not a POST, then return the blank form in the register HTML template
     form = NewUserForm
     return render(request=request, template_name="register.html", context={"register_form": form})
 
@@ -66,14 +36,21 @@ def login_request(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            # authenticate function is used to verify user credentials (username and password)
+            # and return the correct User object stored in the backend.
             user = authenticate(username=username, password=password)
+            # If the backend authenticated the credentials, the function will run Django login() to log in to the
+            # authenticated user
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect("main:homepage")
+            # if the user is not authenticated, it returns a message error
             else:
                 messages.error(request, "Invalid username or password.")
+        # if the form is not valid, then it returns a similar error message
         else:
             messages.error(request, "Invalid username or password.")
+    #  if the request is not a POST, then return the blank form in the login HTML template
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form": form})
