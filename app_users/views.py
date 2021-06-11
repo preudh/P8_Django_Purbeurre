@@ -1,7 +1,8 @@
 # Create your views here.
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.views import LogoutView
 from django.contrib import messages
 # AuthenticationForm is the pre-built Django form logging in a user
 from django.contrib.auth.forms import AuthenticationForm
@@ -22,7 +23,7 @@ def register_request(request):
             login(request, user)
             #  the user is redirected to the homepage showing a success message.
             messages.success(request, "Registration successful.")
-            return redirect("home")
+            return redirect('/index/')
         # if the form is not valid, an error message is shown
         messages.error(request, "Unsuccessful registration. Invalid information.")
     # if the request is not a POST, then return the blank form in the register HTML template
@@ -44,7 +45,8 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("main:homepage")
+                # return redirect("main page")
+                return redirect('/index/') # a revoir car doit rediriger vers page principale
             # if the user is not authenticated, it returns a message error
             else:
                 messages.error(request, "Invalid username or password.")
@@ -54,3 +56,15 @@ def login_request(request):
     #  if the request is not a POST, then return the blank form in the login HTML template
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form": form})
+
+
+# def logout_view(LogoutView):
+#     logout(request)
+#     messages.error(request, "Vous êtes déconnecté")
+#     return render(request, 'index.html')
+
+class UserLogoutView(LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.info(request, "You have successfully logged out.")
+        return super().dispatch(request, *args, **kwargs)

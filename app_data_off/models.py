@@ -16,7 +16,7 @@ class Category(models.Model):
 
     name = models.CharField(max_length=150)
 
-    def __str__(self):  # pour debug
+    def __str__(self):  # for debug
         return self.name
 
 
@@ -24,12 +24,13 @@ class Product(models.Model):
     """ Product model"""
 
     name = models.CharField(max_length=150)
-    brands = models.CharField(max_length=150)
-    stores = models.CharField(max_length=150)
-    nutriscore_grade = models.CharField(max_length=1)
+    brand = models.CharField(max_length=150)
+    store = models.CharField(max_length=150)
+    nutrition_grade = models.CharField(max_length=1)
     url = models.CharField(max_length=150)
-    image_front_url = models.CharField(max_length=150)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)  # delete all the category model instances that
+    image_front_url = models.URLField()
+    image_nutrition_small_url = models.URLField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)  # delete all the category model instances that
     # depend on the product model instance you deleted
 
     def __str__(self):
