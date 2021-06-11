@@ -16,7 +16,7 @@ def drop_everythings():
 
 def get_category_off():
     """get N randomized categories from fr.OFF database"""
-    # list_categories = []
+    list_categories = []
     cat = requests.get('https://fr.openfoodfacts.org/categories?json=true')
     cat_data = cat.json()
     tags_list = cat_data['tags']
@@ -24,7 +24,17 @@ def get_category_off():
     # 5 random categories used for the tests
     list_categories = random.sample(tags_list, k=5)
     for category in list_categories:
-        Category.objects.create(name=category)
+        try:
+            category = category['name']
+            print(category)
+            list_categories.append(category)
+            print(list_categories)
+            Category.objects.create(name=category)
+
+        except KeyError:
+            pass
+        except UnicodeEncodeError:
+            pass
 
 
 def get_product_data_off(list_categories):
