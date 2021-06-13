@@ -26,6 +26,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+""" To do after?"""
+# if os.environ.get('ENV') == 'PRODUCTION':
+#    DEBUG = False
+# else:
+#    DEBUG = True
+#
+# ALLOWED_HOSTS = ['127.0.0.1', 'pbeurre.herokuapp.com']
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -111,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -138,3 +147,4 @@ else:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

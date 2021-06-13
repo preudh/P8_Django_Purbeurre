@@ -1,11 +1,18 @@
+""" Script to get data from OpenFoodFacts API"""
 # Create your views here.
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
+from pprint import pprint
+
 import requests
 import random
 from django.db.utils import DataError, IntegrityError
 # import personal module
 from app_data_off.models import Category, Product
+
+
+# for test purposes
+list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner', 'Biscuits', 'Vins']
 
 
 def drop_everythings():
@@ -16,19 +23,19 @@ def drop_everythings():
 
 def get_category_off():
     """get N randomized categories from fr.OFF database"""
-    list_categories = []
-    cat = requests.get('https://fr.openfoodfacts.org/categories?json=true')
-    cat_data = cat.json()
-    tags_list = cat_data['tags']
-    print(len(tags_list))
+    # cat = requests.get('https://fr.openfoodfacts.org/categories?json=true')
+    # cat_data = cat.json()
+    # tags_list = cat_data['tags']
+    # print(len(tags_list))
     # 5 random categories used for the tests
-    list_categories = random.sample(tags_list, k=5)
+    # list_categories = []
+    # list_categories = random.sample(tags_list, k=5)
     for category in list_categories:
         try:
-            category = category['name']
-            print(category)
-            list_categories.append(category)
-            print(list_categories)
+            # category = category['name']
+            # print(category)
+            # list_categories.append(category)
+            # print(list_categories)
             Category.objects.create(name=category)
 
         except KeyError:
@@ -37,7 +44,8 @@ def get_category_off():
             pass
 
 
-def get_product_data_off(list_categories):
+# def get_product_data_off(list_categories):
+def get_product_data_off():
     """method to get products from OFF database"""
     list_products = []
     for x in list_categories:
@@ -46,7 +54,7 @@ def get_product_data_off(list_categories):
             'action': 'process',
             'json': 1,
             'countries': 'France',
-            'page_size': 300,  # 24 products per page * 300 = 7500 ok with heroku storage
+            'page_size': 100,  # put 300 after 24 products per page * 300 = 7500 ok with heroku storage
             'page': 1,
             'tagtype_0': 'categories',
             'tag_contains_0': 'contains',
@@ -72,7 +80,7 @@ def get_product_data_off(list_categories):
                                        nutrition_grade=nutrition_grade,
                                        url=url, image_front_url=image_front_url,
                                        image_nutrition_small_url=image_nutrition_small_url)
-
+                pprint(product)
             except KeyError:
                 pass
 
