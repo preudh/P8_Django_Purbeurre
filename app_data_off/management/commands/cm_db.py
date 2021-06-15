@@ -1,6 +1,8 @@
 """ Script to register data from OpenFoodFacts in the database """
+
 from django.core.management.base import BaseCommand
 from app_data_off.views import drop_everythings, get_category_off, get_product_data_off
+
 import psycopg2  # Psycopg – PostgreSQL database adapter for Python¶
 
 
@@ -32,7 +34,10 @@ class Command(BaseCommand):
         get_category_off()
         print("get 5 randomized categories from fr.OFF database")
         # get_product_data_off(get_category_off())
-        get_product_data_off()
+        # for test purposes if no request from OFF when user input his search
+        list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner', 'Biscuits', 'Vins']
+        category = list_categories
+        get_product_data_off(category=category)
         print("get products from the 5 categories OFF database")
 
         # Make the changes to the database persistent

@@ -22,10 +22,10 @@ def register_request(request):
             # the user is logged in
             login(request, user)
             #  the user is redirected to the homepage showing a success message.
-            messages.success(request, "Registration successful.")
+            messages.success(request, "Registration successful.")  # message ne sert à rien avec crispy
             return redirect('/index/')
         # if the form is not valid, an error message is shown
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        messages.error(request, "Unsuccessful registration. Invalid information.")  # meassage ne sert a rien avec crysp
     # if the request is not a POST, then return the blank form in the register HTML template
     form = NewUserForm
     return render(request=request, template_name="register.html", context={"register_form": form})
@@ -44,15 +44,15 @@ def login_request(request):
             # authenticated user
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
+                messages.info(request, f"You are now logged in as {username}.")  # ne sert à rien
                 # return redirect("main page")
-                return redirect('/index/') # a revoir car doit rediriger vers page principale
+                return redirect('/index/')  # a revoir car doit rediriger vers page principale
             # if the user is not authenticated, it returns a message error
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.error(request, "Invalid username or password.") # ne sert à rien
         # if the form is not valid, then it returns a similar error message
         else:
-            messages.error(request, "Invalid username or password.")
+            messages.error(request, "Invalid username or password.")  # ne sert à rien
     #  if the request is not a POST, then return the blank form in the login HTML template
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form": form})

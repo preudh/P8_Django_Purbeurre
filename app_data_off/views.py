@@ -11,9 +11,6 @@ from django.db.utils import DataError, IntegrityError
 from app_data_off.models import Category, Product
 
 
-# for test purposes
-list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner', 'Biscuits', 'Vins']
-
 
 def drop_everythings():
     """ Reinitialisation of purbeurre database"""
@@ -23,6 +20,8 @@ def drop_everythings():
 
 def get_category_off():
     """get N randomized categories from fr.OFF database"""
+    list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner', 'Biscuits', 'Vins']
+
     # cat = requests.get('https://fr.openfoodfacts.org/categories?json=true')
     # cat_data = cat.json()
     # tags_list = cat_data['tags']
@@ -45,16 +44,16 @@ def get_category_off():
 
 
 # def get_product_data_off(list_categories):
-def get_product_data_off():
+def get_product_data_off(category):
     """method to get products from OFF database"""
     list_products = []
-    for x in list_categories:
+    for x in category:
         """get products' data from openfoodfacts api with string as paramaters"""
         parameters = {
             'action': 'process',
             'json': 1,
             'countries': 'France',
-            'page_size': 100,  # put 300 after 24 products per page * 300 = 7500 ok with heroku storage
+            'page_size': 1,  # put 300 after 24 products per page * 300 = 7500 ok with heroku storage
             'page': 1,
             'tagtype_0': 'categories',
             'tag_contains_0': 'contains',
@@ -66,8 +65,12 @@ def get_product_data_off():
         data = r.json()  # r. from requests module decodes json file
         products = data['products']  # access dictionary items by referring to its key name, products ordered by id
         list_products.append(products)
+        print(type(list_products))
 
         for product in list_products:
+
+            # for product_number in range(len(list_products)):
+
             try:
                 name = product["product_name"]
                 brand = product["brands"]
