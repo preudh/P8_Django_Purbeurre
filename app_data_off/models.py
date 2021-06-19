@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    """ category model"""
+    """ category model for product"""
 
     name = models.CharField(max_length=150)
 
@@ -35,6 +35,19 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class UserProduct(models.Model):

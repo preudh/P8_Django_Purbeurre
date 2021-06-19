@@ -22,17 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = []
 
-""" To do after?"""
-# if os.environ.get('ENV') == 'PRODUCTION':
-#    DEBUG = False
-# else:
-#    DEBUG = True
-#
-# ALLOWED_HOSTS = ['127.0.0.1', 'pbeurre.herokuapp.com']
+""" To do :  after put heroku url"""
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+else:
+    DEBUG = True
+
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_command_debug',
 
 ]
 
