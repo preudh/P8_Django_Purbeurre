@@ -27,31 +27,19 @@ class Product(models.Model):
     brand = models.CharField(max_length=150)
     store = models.CharField(max_length=150)
     nutrition_grade = models.CharField(max_length=1)
-    url = models.CharField(max_length=150)
+    url = models.URLField(max_length=150)
     image_front_url = models.URLField()
     image_nutrition_small_url = models.URLField(max_length=200, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)  # delete all the category model instances that
+
     # depend on the product model instance you deleted
 
     def __str__(self):
         return self.name
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 class UserProduct(models.Model):
-    """ table between Substitut and User. """
+    """ table between Product and User. """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
