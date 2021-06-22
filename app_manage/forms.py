@@ -6,5 +6,8 @@ from django import forms
 
 
 class SearchForm(forms.Form):
-    """ Form to search a product. Display on nav and index page. """
-    search = forms.CharField(max_length=50)
+    """ Form to search a substitut. Display on nav and index page. """
+    search = forms.CharField(max_length=150)
+
+
+

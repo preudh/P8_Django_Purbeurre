@@ -1,12 +1,12 @@
 # Create your views here.
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout as django_logout, authenticate
 from django.contrib.auth.views import LogoutView
 from django.contrib import messages
 # AuthenticationForm is the pre-built Django form logging in a user
 from django.contrib.auth.forms import AuthenticationForm
-
+from django.urls import reverse
 # personal import
 from .forms import NewUserForm
 
@@ -49,7 +49,7 @@ def login_request(request):
                 return redirect('/index/')  # a revoir car doit rediriger vers page principale
             # if the user is not authenticated, it returns a message error
             else:
-                messages.error(request, "Invalid username or password.") # ne sert à rien
+                messages.error(request, "Invalid username or password.")  # ne sert à rien
         # if the form is not valid, then it returns a similar error message
         else:
             messages.error(request, "Invalid username or password.")  # ne sert à rien
@@ -58,13 +58,10 @@ def login_request(request):
     return render(request=request, template_name="login.html", context={"login_form": form})
 
 
-# def logout_view(LogoutView):
-#     logout(request)
-#     messages.error(request, "Vous êtes déconnecté")
-#     return render(request, 'index.html')
+def logout(request):
+    """The logout view, handling logout requests
+    :param request: provided by Django
+    """
+    django_logout(request)
+    return redirect(reverse("index"))
 
-class UserLogoutView(LogoutView):
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            messages.info(request, "You have successfully logged out.")
-        return super().dispatch(request, *args, **kwargs)
