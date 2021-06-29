@@ -63,5 +63,5 @@ def logout(request):
     :param request: provided by Django
     """
     django_logout(request)
-    return redirect(reverse("index"))
+    return redirect(reverse("index")) # return ver url index after action
 

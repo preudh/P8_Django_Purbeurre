@@ -28,9 +28,9 @@ class Product(models.Model):
     store = models.CharField(max_length=150)
     nutrition_grade = models.CharField(max_length=1)
     url = models.URLField(max_length=150)
-    image_front_url = models.URLField()
+    image_front_url = models.URLField(max_length=150)
     image_nutrition_small_url = models.URLField(max_length=200, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)  # delete all the category model instances that
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)  # delete all the category model instances that
 
     # depend on the product model instance you deleted
 
