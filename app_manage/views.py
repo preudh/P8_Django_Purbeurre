@@ -1,8 +1,11 @@
-from django.shortcuts import render, get_object_or_404
-from .forms import SearchForm
-from app_data_off.models import Product
+from django.shortcuts import render, get_object_or_404  # Calls get() on a given model manager, but it raises Http404
+# instead of the model’s DoesNotExist exception.
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Q
+from django.db.models import Q  # Complex queries with Q objects
+
+# personal import
+from app_data_off.models import Product
+from .forms import SearchForm
 
 
 # Create your views here.
@@ -31,31 +34,32 @@ def search(request):
         foo = get_object_or_404(Product)
         substitute_list = []
         if foo.nutrition_grade == 'a':
+            # Complex queries with Q objects
             substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-            (category_tags2__icontains=foo.category) & Q
+                                                     (category_tags2__icontains=foo.category) & Q
                                                      (nutri_score__lte=foo.nutrition_grade))
 
         if foo.nutrition_grade == 'b':
             substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-            (category_tags2__icontains=foo.category) & Q
+                                                     (category_tags2__icontains=foo.category) & Q
                                                      (nutri_score__lte=foo.nutrition_grade))
 
         if foo.nutrition_grade == 'c':
             substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-            (category_tags2__icontains=foo.category) & Q
+                                                     (category_tags2__icontains=foo.category) & Q
                                                      (nutri_score__lt=foo.nutrition_grade))
         if foo.nutrition_grade == 'd':
             substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-            (category_tags2__icontains=foo.category) & Q
+                                                     (category_tags2__icontains=foo.category) & Q
                                                      (nutri_score__lt=foo.nutrition_grade))
         if foo.nutrition_grade == 'e':
             substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-            (category_tags2__icontains=foo.category) & Q
+                                                     (category_tags2__icontains=foo.category) & Q
                                                      (nutri_score__lt=foo.nutrition_grade))
         if len(substitute_list) == 0:
             try:
                 substitute_list = Product.objects.filter(Q(category_tags2__icontains=foo.category) & Q
-                (nutri_score__lt=foo.nutrition_grade))
+                                                         (nutri_score__lt=foo.nutrition_grade))
             except:
                 pass
         substitute_list = substitute_list.order_by('nutrition_grade')
@@ -73,7 +77,7 @@ def search(request):
             substitute = paginator.page(paginator.num_pages)
         context = {
             'favori': favori,
-            'foods': Product,
+            'foods': food,
             'substitute': substitute,
             'paginate': True,
         }
