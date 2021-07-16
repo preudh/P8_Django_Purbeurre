@@ -9,4 +9,6 @@ urlpatterns = [
     path('termes/', views.termes, name='termes'),
     path('base/', views.base, name='base'),
     path('index/', views.index, name="index"),
+    path('product/<pk>/', views.Detail.as_view(), views.Detail, name='details'),
+    path('substitute/', views.Substitute, name='substitute'),
 ]

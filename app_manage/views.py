@@ -1,11 +1,14 @@
-from django.shortcuts import render, get_object_or_404  # Calls get() on a given model manager, but it raises Http404
+from django.shortcuts import render, get_object_or_404, redirect  # Calls get() on a given model manager, but it raises Http404
 # instead of the model’s DoesNotExist exception.
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q  # Complex queries with Q objects
-
-# personal import
-from app_data_off.models import Product
+from django.contrib.auth.decorators import login_required
 from .forms import SearchForm
+from django.contrib import messages
+# personal import
+from app_data_off.models import Product, Category
+from app_manage.models import Cart, Order
+from django.views.generic import ListView, DetailView
 
 
 # Create your views here.
@@ -26,71 +29,49 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def search(request):
-    if request.GET:
-        user = request.user
-        query = request.GET.get('q')
-        food = Product.objects.filter(name__icontains=query)[:1]
-        foo = get_object_or_404(Product)
-        substitute_list = []
-        if foo.nutrition_grade == 'a':
-            # Complex queries with Q objects
-            substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-                                                     (category_tags2__icontains=foo.category) & Q
-                                                     (nutri_score__lte=foo.nutrition_grade))
+def search_substitut(name):
+    Category.objects.filter (name_contains = )
 
-        if foo.nutrition_grade == 'b':
-            substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-                                                     (category_tags2__icontains=foo.category) & Q
-                                                     (nutri_score__lte=foo.nutrition_grade))
 
-        if foo.nutrition_grade == 'c':
-            substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-                                                     (category_tags2__icontains=foo.category) & Q
-                                                     (nutri_score__lt=foo.nutrition_grade))
-        if foo.nutrition_grade == 'd':
-            substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-                                                     (category_tags2__icontains=foo.category) & Q
-                                                     (nutri_score__lt=foo.nutrition_grade))
-        if foo.nutrition_grade == 'e':
-            substitute_list = Product.objects.filter(Q(name__icontains=query) & Q
-                                                     (category_tags2__icontains=foo.category) & Q
-                                                     (nutri_score__lt=foo.nutrition_grade))
-        if len(substitute_list) == 0:
-            try:
-                substitute_list = Product.objects.filter(Q(category_tags2__icontains=foo.category) & Q
-                                                         (nutri_score__lt=foo.nutrition_grade))
-            except:
-                pass
-        substitute_list = substitute_list.order_by('nutrition_grade')
-        substitute_list = substitute_list.exclude(name=foo.name)
-        favori = Product.objects.filter(Q(backup__user_id=user.id))
 
-        # paginator settings
-        page = request.GET.get('page')
-        paginator = Paginator(substitute_list, 6)
-        try:
-            substitute = paginator.page(page)
-        except PageNotAnInteger:
-            substitute = paginator.page(1)
-        except EmptyPage:
-            substitute = paginator.page(paginator.num_pages)
-        context = {
-            'favori': favori,
-            'foods': food,
-            'substitute': substitute,
-            'paginate': True,
-        }
-        return render(request, 'search.html', context)
+
+
+
+
+# @login_required
+def add_to_substitute(request, pk):
+    item = get_object_or_404(Product, pk=pk)
+    order_item = Cart.objects.get_or_create(item=item, user=request.user, purchased=False)
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.orderitems.filter(item=item).exists():
+            order_item[0].quantity += 1
+            order_item[0].save()
+            messages.info(request, "This item quantity is updated")
+            return redirect("home")
+        else:
+            order.orderitems.add(order_item[0])
+            messages.info(request, "This item is addedd to your cart")
+            return redirect("home")
     else:
-        return render(request, 'index.html')
+        order = Order(user=request.user)
+        order.save()
+        order.orderitems.add(order_item[0])
+        messages.info(request, "This item is added to your cart")
+        return redirect("home")
 
 
-def details(request, food_id):
-    form = SearchForm(request.POST)
-    food = get_object_or_404(Product, id=food_id)
-    context = {
-        'Product': food,
-        'form': form
-    }
-    return render(request, 'details.html', context)
+class Substitute(ListView):
+    model = Product
+    template_name = 'substitute.html'
+
+
+class Detail(DetailView):
+    model = Product
+    template_name = 'details.html'
+
+
+# @login_required
+# def add_to_favorite(request, pk):
+#     pass

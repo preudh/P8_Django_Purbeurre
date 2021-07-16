@@ -5,10 +5,11 @@
 """ Models declaration """
 
 from django.db import models
+
+
 # Using the Django authentication system
 # User objects represent the people who interact with your site and are used to activate features such as restricting
 # access, registering user profiles, associating content with its creator, etc.
-from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -30,16 +31,9 @@ class Product(models.Model):
     url = models.URLField(max_length=150)
     image_front_url = models.URLField(max_length=150)
     image_nutrition_small_url = models.URLField(max_length=200, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)  # delete all the category model instances that
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)  # delete all the category model
 
-    # depend on the product model instance you deleted
+    # instances that depend on the product model instance you deleted
 
     def __str__(self):
         return self.name
-
-
-class UserProduct(models.Model):
-    """ table between Product and User. """
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
