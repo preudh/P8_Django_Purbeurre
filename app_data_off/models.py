@@ -5,6 +5,7 @@
 """ Models declaration """
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Using the Django authentication system
@@ -33,7 +34,12 @@ class Product(models.Model):
     image_nutrition_small_url = models.URLField(max_length=200, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)  # delete all the category model
 
-    # instances that depend on the product model instance you deleted
-
     def __str__(self):
         return self.name
+
+
+class UserProduct(models.Model):
+    """ Favourite product model. Reference table between Product and User. """
+
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
