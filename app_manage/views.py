@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect  # Calls get() on a given model manager, but it raises Http404
+from django.shortcuts import render, get_object_or_404, \
+    redirect  # Calls get() on a given model manager, but it raises Http404
 # instead of the model’s DoesNotExist exception.
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q  # Complex queries with Q objects
@@ -7,8 +8,6 @@ from .forms import SearchForm
 from django.contrib import messages
 # personal import
 from app_data_off.models import Product, Category
-# from app_manage.models import Substitut, SaveSubstitut
-from django.views.generic import ListView, DetailView
 
 
 # Create your views here.
@@ -22,21 +21,26 @@ def termes(request):
 
 
 def index(request):
-    form = SearchForm(request.POST)
-    context = {
+    form=SearchForm(request.POST)
+    context={
         'form': form
     }
     return render(request, 'index.html', context)
 
 
-def substitute(search):
+def substitute(request):
+    if request.method == "POST":
+        if request.form.get("search") in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
+            fk_category=Category.objects.filter(name=request.form.get("search"))
+            return Product.objects.filter(category=fk_category)
 
-    if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
-        fk_category = Category.objects.filter(name=search)
-        return Product.objects.filter(category=fk_category)
+        return Product.objects.filter(name=request.form.get("search"))  # retourne une list
+    else:
+        pass
 
-    return Product.objects.filter(name=search)
-#
+    render(request, 'substitute.html', context=search)
+
+    #
 #
 # def save_substitut(request):
 #     """ Route to get save product Ajax script. Return confirmation or error message. """
@@ -61,7 +65,6 @@ def substitute(search):
 #         json.dumps(response_data),
 #         content_type='application/json',
 #     )
-
 
 
 #

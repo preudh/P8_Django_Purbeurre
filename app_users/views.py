@@ -65,3 +65,4 @@ def logout(request):
     django_logout(request)
     return redirect(reverse("index"))  # return ver url index after action
 
+
