@@ -22,36 +22,31 @@ def get_product_off():
 
     for category in list_categories:  # start of outer loop
         cat_id = Category.objects.create(name=category)
-        pprint(Category.name)
-        count_product = 1  # initialization of the counter of the inner loop while
-        while count_product < 10:  # enter 1000 when the loop is working, start of the inner while loop
-            for product in openfoodfacts.products.get_all_by_category(category):  # start of inner loop for
-                try:
-                    name = product.get("product_name", None)
-                    brand = product.get("brands", None)
-                    nutrition_grade = product.get("nutrition_grades", None)
-                    url = product.get("url", None)
-                    image_front_url = product.get('image_front_url', None)
-                    image_nutrition_small_url = product.get("image_nutrition_small_url", None)
-                    store = product.get("stores", None)
-                    # create and save an object in a single step, use the create() method.
-                    # while count_product < 10, to expand up to 50-100 for production purposes:
-                    Product.objects.create(name=name, brand=brand,
-                                           store=store,
-                                           nutrition_grade=nutrition_grade,
-                                           url=url, image_front_url=image_front_url,
-                                           image_nutrition_small_url=image_nutrition_small_url,
-                                           category=cat_id)
+        for product in openfoodfacts.products.get_all_by_category(category):  # start of inner loop for
+            try:
+                name = product.get("product_name", None)
+                brand = product.get("brands", None)
+                nutrition_grade = product.get("nutrition_grades", None)
+                url = product.get("url", None)
+                image_front_url = product.get('image_front_url', None)
+                image_nutrition_small_url = product.get("image_nutrition_small_url", None)
+                store = product.get("stores", None)
+                # create and save an object in a single step, use the create() method.
+                Product.objects.create(name=name, brand=brand,
+                                       store=store,
+                                       nutrition_grade=nutrition_grade,
+                                       url=url, image_front_url=image_front_url,
+                                       image_nutrition_small_url=image_nutrition_small_url,
+                                       category=cat_id)
 
-                except KeyError:
-                    pass
+            except KeyError:
+                pass
 
-                except DataError:
-                    pass
+            except DataError:
+                pass
 
-                except IntegrityError:
-                    pass
-                pprint(Product.name)
+            except IntegrityError:
+                pass
+            pprint(Product.name)
 
-            count_product += 1  # internal loop counter increment
 

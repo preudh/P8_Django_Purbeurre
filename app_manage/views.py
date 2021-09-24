@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404, \
-    redirect  # Calls get() on a given model manager, but it raises Http404
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404
+
 # instead of the model’s DoesNotExist exception.
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q  # Complex queries with Q objects
@@ -28,17 +29,24 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def substitute(request):
+def search(request):
+    # if this is a POST request we need to process the form data
+
     if request.method == "POST":
-        if request.form.get("search") in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
-            fk_category=Category.objects.filter(name=request.form.get("search"))
-            return Product.objects.filter(category=fk_category)
+        search = request.POST.get('search')
+        print(search)  # to erase after
+        if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
+            fk_category = Category.objects.get(name=search)
+            product = Product.objects.filter(category_id=fk_category.pk)
+            return render(request, 'search.html', context={"product": product})
 
-        return Product.objects.filter(name=request.form.get("search"))  # retourne une list
-    else:
-        pass
+        product = Product.objects.filter(name__icontains=search)
+        return render(request, 'search.html', context={"product": product})
 
-    render(request, 'substitute.html', context=search)
+
+
+
+
 
     #
 #
@@ -65,24 +73,3 @@ def substitute(request):
 #         json.dumps(response_data),
 #         content_type='application/json',
 #     )
-
-
-#
-#
-#
-#
-#
-#
-# class Substitute(ListView):
-#     model = Product
-#     template_name = 'substitute.html'
-#
-#
-# class Detail(DetailView):
-#     model = Product
-#     template_name = 'details.html'
-#
-#
-# # @login_required
-# # def add_to_favorite(request, pk):
-# #     pass

@@ -33,13 +33,12 @@
     <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav" style="border-color: #f8f6f6;background: #c45525;">
         <div class="container"><img src="{% static 'img/logo_pur_beurre.png' %}"  style="height: 49px;"><a class="navbar-brand" href="#page-top">PUR BEURRE</a>
             <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-align-justify"></i></button>
-                <div class="input-group">
-                    <input class="form-control" type="text"  placeholder="Recherche"  style="width: 12.609px;opacity: 1;background: var(--bs-white);">
-{#                    <button class="btn btn-primary" type="button">Chercher</button>#}
-                    <a class="btn btn-primary" href="{% url 'substitute' %}" role="button">Chercher</a>
-                </div>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
+{#                <form action ="search.html" class="input-group" method="GET">#}
+                <form action="{% url 'search' %}" class="input-group" method="POST">
+                    {% csrf_token %}
+                    <input class="form-control" type="text" name="search" placeholder="Recherche " required style="width: 12.609px;opacity: 1;background: var(--bs-white);">
+                    <button class="btn btn-primary" type="submit">Chercher</button>
+                </form>
                     <li class="nav-item"></li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'app_users:login' %}">

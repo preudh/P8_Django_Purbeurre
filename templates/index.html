@@ -13,10 +13,11 @@
                     <p class="text-faded mb-5" style="font-size: 48.4px;color: var(--bs-light);font-family: 'Open Sans', sans-serif;text-align: center;"><br><strong>Trouvez un produit de substitution pour ceux que vous consommez tous les jours</strong><br><br></p>
                 </div>
                 <div class="input-group">
-                    <label for="searchSubstitut"></label>
-                    <input class="form-control" id="searchSubstitut" type="text" action="{% url 'substitute' %}"
-                    method="GET" placeholder="Entrez le nom de la catégorie" style="width: 12.609px;opacity: 1;background: var(--bs-white);">
-                    <button class="btn btn-primary" type="button">Chercher</button>
+                    <form action="{% url 'search' %}" class="input-group" method="POST"> {% csrf_token %}
+                    <input class="form-control" id="searchSubstitut" type="text" name="search" action="{% url 'search' %}"
+                    placeholder="Entrez le nom de la catégorie" required style="width: 12.609px;opacity: 1;background: var(--bs-white);">
+                    <button class="btn btn-primary" type="submit">Chercher</button>
+                </form>
                 </div>
             </div>
         </div>
