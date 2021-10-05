@@ -1,3 +1,4 @@
+from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 
@@ -33,22 +34,17 @@ def search(request):
     # if this is a POST request we need to process the form data
 
     if request.method == "POST":
-        search = request.POST.get('search')
-        print(search)  # to erase after
+        search=request.POST.get('search')
         if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
-            fk_category = Category.objects.get(name=search)
-            product = Product.objects.filter(category_id=fk_category.pk)
-            return render(request, 'search.html', context={"product": product})
+            fk_category=Category.objects.get(name=search)
+            product=Product.objects.filter(category_id=fk_category.pk)
+            p1 = Product.objects.filter(category_id=fk_category.pk).first()
+            return render(request, 'search.html', context={"product": product, "p1": p1})
 
-        product = Product.objects.filter(name__icontains=search)
-        return render(request, 'search.html', context={"product": product})
+        product=Product.objects.filter(name__icontains=search)
+        p1=Product.objects.filter(name=search).first()
+        return render(request, 'search.html', context={"product": product, "p1": p1})
 
-
-
-
-
-
-    #
 #
 # def save_substitut(request):
 #     """ Route to get save product Ajax script. Return confirmation or error message. """
