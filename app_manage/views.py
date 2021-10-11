@@ -1,5 +1,6 @@
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, redirect
+
 from django.http import HttpResponse, Http404
 
 # instead of the model’s DoesNotExist exception.
@@ -38,12 +39,69 @@ def search(request):
         if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
             fk_category=Category.objects.get(name=search)
             product=Product.objects.filter(category_id=fk_category.pk)
+            print(product)
             p1 = Product.objects.filter(category_id=fk_category.pk).first()
             return render(request, 'search.html', context={"product": product, "p1": p1})
 
         product=Product.objects.filter(name__icontains=search)
         p1=Product.objects.filter(name=search).first()
         return render(request, 'search.html', context={"product": product, "p1": p1})
+
+# def search(request):  # essai 2 dont work
+#     # if this is a POST request we need to process the form data
+#
+#     if request.method == "POST":
+#         search=request.POST.get('search')
+#         if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
+#             fk_category=Category.objects.get(name=search)
+#             list_product=[]
+#             product=Product.objects.filter(category_id=fk_category.pk)
+#             p1=Product.objects.filter(category_id=fk_category.pk).first()
+#             for entry in product:
+#                 list_product.append(entry)
+#                 return render(request, 'search.html', context={"p": entry, "p1": p1})
+#
+#         list_product=[]
+#         product=Product.objects.filter(name__icontains=search)
+#         for entry in product:
+#             list_product.append(entry)
+#             return render(request, 'search.html', context={"p": entry, "p1": p1})
+
+
+# def search(request):
+# #     # if this is a POST request we need to process the form data
+# #
+#     if request.method == "POST":
+#         search=request.POST.get('search')
+#         if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
+#             fk_category=Category.objects.get(name=search)
+#             list_product=[]
+#             product=Product.objects.filter(category_id=fk_category.pk).order_by('id')
+#             paginator=Paginator(list_product, 6)  # new Show 6 products per page.
+#             page_number=request.GET.get('page')  # new
+#             page_obj=paginator.get_page(page_number)  # new
+#             list_product=[entry for entry in product]
+#             # for entry in product:
+#             #     list_product.append(entry)
+#             print(product)  # new + order by id
+#             print(list_product)
+#             print(type(list_product)) # liste d'instance de class!
+#             p1 = Product.objects.filter(category_id=fk_category.pk).first()
+#             # paginator=Paginator(list_product, 6)  # new Show 6 products per page.
+#             # page_number=request.GET.get('page')  # new
+#             # page_obj=paginator.get_page(page_number)  # new
+#             return render(request, 'search.html', context={"product": list_product, "p1": p1, 'page_obj': page_obj}) # new
+#
+#         product=Product.objects.filter(name__icontains=search).order_by('id')  # new + order by id
+#         paginator=Paginator(product, 6)  # new Show 6 products per page.
+#         page_number=request.GET.get('page')  # new
+#         page_obj=paginator.get_page(page_number)  # new
+#         p1=Product.objects.filter(name=search).first()
+#         # paginator=Paginator(product, 6)  # new Show 6 products per page.
+#         # page_number=request.GET.get('page')  # new
+#         # page_obj=paginator.get_page(page_number)  # new
+#         return render(request, 'search.html', context={"product": product, "p1": p1, 'page_obj': page_obj})  # new
+
 
 #
 # def save_substitut(request):

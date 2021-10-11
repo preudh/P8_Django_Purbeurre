@@ -6,7 +6,7 @@
         <div class="text-center" id ="img_search">
             <div class="header_img">
                 <div class="header_img mx-auto">
-                   <div id="back_img"  class="img-responsive" style="background-image:url({{p1.image_front_url}})">
+                   <div id="back_img"  class="img-responsive" style="background-image:url({{p1.image_front_url}}">
                        <h2>
                            <a id="text_prod" class="text mb-5">
                            {{p1.name}}
@@ -18,59 +18,62 @@
         </div>
     </section>
 
-{#<h1>Liste des substituts</h1>#}
-{#<ol>#}
-{#{% for p in product %}#}
-{#    <li>{{p}}#}
-{#{% empty %}#}
-{#    <li>Ce produit ne figure dans notre catalogue, découvrez des produits qui figurent dans notre catalogue : Viandes, Poissons, Epicerie, Chocolats, Pates-a-tartiner.</li>#}
-{#{% endfor %}#}
-{#</ol>#}
 
-{#  <div class="container">#}
-{#   <h1>Vous pouvez remplacer cet aliment par</h1>#}
-{#   <div class="row">#}
-{#      {% for p in product %}#}
-{#     <div class="col-md-6 col-sm-12 col-lg-3">#}
-{#       <figure class="card card-product">#}
-{#         <div class="img-wrap">#}
-{#           <img src="{{p.image_front_url}}" style="width:100%; height:300px;">#}
-{##}
-{#         </div>#}
-{##}
-{#         <figcaption class="info-wrap">#}
-{#           <h6 class="title"><a href="{% url 'app_data_off:product_detail' pk=p.pk %}">{{ p.name }}</a></h6>#}
-{#          <div class="action-wrap">#}
-{#            <div class="price-wrap h5">#}
-{#              <span class="price-new"> $ {{ p.nutrition_grade}}</span>#}
-{#            </div>#}
-{#            </div>#}
-{#         </figcaption>#}
-{#       </figure>#}
-{#     </div>#}
-{##}
-{# {% endfor %}#}
-{##}
-{#   </div>#}
-{# </div>#}
-
-<div class="container" style="text-align: center;">
-    <h1 class="text-center">Vous pouvez remplacer cet aliment par :</h1>
+{# # good 1#}
+    <div class="container" style="text-align: center;">
+        <h1 class="text-center">Vous pouvez remplacer cet aliment par :</h1>
          <div class="row">
-             {% for p in product %}
-                 <div class="col-md-4">
-                    <div class="card card-product-grid">
-                         <div class="img-wrap"></div> <img src="{{p.image_front_url}}" alt="image du produit" style="width:100%; height:300px;padding:10px">
-                    </div>
-                 </div>
-             {% empty %}
-                <h2>Ce produit ne figure dans notre catalogue, cherchez des produits qui figurent dans notre catalogue : Viandes, Poissons, Epicerie, Chocolats, Pates-a-tartiner.</h2>
-             {% endfor %}
+                 {% for p in product %}
+                         <div class="col-md-4">
+                            <div class="card card-product-grid">
+                                 <div class="img-wrap"></div> <img src="{{p.image_front_url}}" alt="image du produit" style="width:100%; height:300px;padding:10px">
+                            </div>
+                         </div>
+                 {% empty %}
+                    <h2>Désolé, ce produit ne figure dans notre catalogue, cherchez des produits qui figurent dans les catégories : Viandes, Poissons, Epicerie, Chocolats, Pates-a-tartiner.</h2>
+                {% endfor %}
          </div>
-</div>
-{
-
-</body>
-
+    </div>
+ </body>
 {% endblock %}
+
+
+
+
+{#{% for product in page_obj %}#}
+{#<div class="container" style="text-align: center;">#}
+{#    <h1 class="text-center ">Vous pouvez remplacer cet aliment par :</h1>#}
+{#     <div class="row">#}
+{#             {% for p in product %}#}
+{#                     <div class="col-md-4">#}
+{#                        <div class="card card-product-grid">#}
+{#                             <div class="img-wrap"></div> <img src="{{p.image_front_url}}" alt="image du produit" style="width:100%; height:300px;padding:10px">#}
+{#                        </div>#}
+{#                     </div>#}
+{#             {% empty %}#}
+{#                <h2>Ce produit ne figure dans notre catalogue, cherchez des produits qui figurent dans notre catalogue : Viandes, Poissons, Epicerie, Chocolats, Pates-a-tartiner.</h2>#}
+{#            {% endfor %}#}
+{#     </div>#}
+{#</div>#}
+{#{% endfor %}#}
+{##}
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo; first</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+{#</body>#}
+{#{% endblock %}#}
 
