@@ -1,0 +1,59 @@
+#mainNav
+{
+  border-color:#f8f6f6;
+  background: #c45525;
+}
+
+#fitlogo
+{
+  height: 49px;
+}
+
+#colleteremy
+{
+  background-color: #c45525;
+}
+
+#about
+{
+  background-color: #c45525;
+}
+
+#text_prod
+{
+    line-height: 300px;
+    /*box-shadow: 0 0 10px #c45525;*/
+    color: #e45a3d;
+    font-weight: bold;
+}
+
+#back_img
+{
+    /*border: #c45525 3px solid;*/
+    /*width:100%;*/
+    /*height:300px;*/
+
+    /*border: #858e96 5px solid;*/
+    image-orientation: initial;
+    height: 100%;
+    color: #e45a3d;
+}
+
+.img_search
+{
+    padding-top: 0;
+    *width:100%;
+    height:300px;
+    }
+
+h1.text-center
+{
+    color:#c45525;
+}
+
+/*#nav-link*/
+/*{*/
+/*    display: inline;*/
+/*}*/
+
+#background-food-image
