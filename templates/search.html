@@ -29,12 +29,21 @@
                                  <div class="img-wrap"></div> <img src="{{p.image_front_url}}" alt="image du produit" style="width:100%; height:300px;padding:10px">
                             </div>
                          </div>
+                         <div id="foods-content">
+                            <a class="text-center js-scroll-trigger" href="{% url 'detail' product_id=p.id %}">
+                            <h6 id="food-name">{{ p.name }}<br></h6></a>
+                        </div>
+                      <form action="{% url 'save' product_id=p.id %}" class="save" method="POST" >
+                          {% csrf_token %}
+                          <input class="save" name="product_id=p.id" type="submit" value="Sauvegarder ce produit">
+                      </form>
                  {% empty %}
                     <h2>Désolé, ce produit ne figure dans notre catalogue, cherchez des produits qui figurent dans les catégories : Viandes, Poissons, Epicerie, Chocolats, Pates-a-tartiner.</h2>
                 {% endfor %}
          </div>
     </div>
  </body>
+
 {% endblock %}
 
 

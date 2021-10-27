@@ -16,7 +16,7 @@ The Pur Beurre start-up, which you have already worked for, decided to launch a 
 * Viewing the search field from the home page
 * The search must not be using AJAX
 * Responsive interface
-* The client can create a user account and login/logout
+* The client can create a user account and login_request/logout
 
 
 ### Utilisation

@@ -1,16 +1,15 @@
 from django.core.exceptions import MultipleObjectsReturned
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
-
+from app_users.views import login_request
 # instead of the model’s DoesNotExist exception.
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q  # Complex queries with Q objects
-from django.contrib.auth.decorators import login_required
 from .forms import SearchForm
 from django.contrib import messages
 # personal import
-from app_data_off.models import Product, Category
+from app_data_off.models import Product, Category, UserProduct
 
 
 # Create your views here.
@@ -24,8 +23,8 @@ def termes(request):
 
 
 def index(request):
-    form=SearchForm(request.POST)
-    context={
+    form = SearchForm(request.POST)
+    context = {
         'form': form
     }
     return render(request, 'index.html', context)
@@ -35,17 +34,79 @@ def search(request):
     # if this is a POST request we need to process the form data
 
     if request.method == "POST":
-        search=request.POST.get('search')
+        search = request.POST.get('search')
         if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
-            fk_category=Category.objects.get(name=search)
-            product=Product.objects.filter(category_id=fk_category.pk)
+            fk_category = Category.objects.get(name=search)
+            product = Product.objects.filter(category_id=fk_category.pk)
             print(product)
             p1 = Product.objects.filter(category_id=fk_category.pk).first()
             return render(request, 'search.html', context={"product": product, "p1": p1})
 
-        product=Product.objects.filter(name__icontains=search)
-        p1=Product.objects.filter(name=search).first()
+        product = Product.objects.filter(name__icontains=search)
+        p1 = Product.objects.filter(name=search).first()
         return render(request, 'search.html', context={"product": product, "p1": p1})
+
+
+def detail(request, product_id):
+    form = SearchForm(request.POST)
+    p = get_object_or_404(Product, id=product_id)
+    context = {
+        'p': p,
+        'form': form
+    }
+    return render(request, 'detail.html', context)
+
+
+# @login_required(login_url='/login/')
+@login_required()
+def save(request, product_id,):
+    """ . """
+    if request.method == 'POST':
+        user_id = request.user.id
+        print(user_id, product_id)
+        user_product = UserProduct.objects.filter(product_id=product_id, user_id=user_id)
+        if not user_product.exists():
+            UserProduct.objects.create(product_id=product_id, user_id=user_id)
+        else:
+            return redirect('Produit déjà sauvegardé')
+    # return redirect('detail.html')
+    return redirect('/index', permanent=True)
+
+
+# @login_required(login_url='/login/')
+@login_required()
+def favorite(request):
+    user = request.user.id
+    fav_prod = Product.objects.filter(user_id=user.id)
+    # paginator settings
+    # page = request.GET.get('page')
+    # paginator = Paginator(fav_prod, 9)
+    # try:
+    #     favoris = paginator.page(page)
+    # except PageNotAnInteger:
+    #     favoris = paginator.page(1)
+    # except EmptyPage:
+    #     favoris = paginator.page(paginator.num_pages)
+    context = {
+        'favori': fav_prod,
+        # 'paginate': True,
+        # 'favoris': favoris
+    }
+    return render(request, 'favorite.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # def search(request):  # essai 2 dont work
 #     # if this is a POST request we need to process the form data
@@ -103,9 +164,9 @@ def search(request):
 #         return render(request, 'search.html', context={"product": product, "p1": p1, 'page_obj': page_obj})  # new
 
 
-#
-# def save_substitut(request):
-#     """ Route to get save product Ajax script. Return confirmation or error message. """
+# #
+# def save(request):
+#     """ save product. Return confirmation or error message. """
 #
 #     response_data = {}
 #
