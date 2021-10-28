@@ -57,27 +57,25 @@ def detail(request, product_id):
     return render(request, 'detail.html', context)
 
 
-# @login_required(login_url='/login/')
-@login_required()
+@login_required(login_url='/login/')
+# @login_required()
 def save(request, product_id,):
     """ . """
     if request.method == 'POST':
         user_id = request.user.id
-        print(user_id, product_id)
         user_product = UserProduct.objects.filter(product_id=product_id, user_id=user_id)
         if not user_product.exists():
             UserProduct.objects.create(product_id=product_id, user_id=user_id)
         else:
-            return redirect('Produit déjà sauvegardé')
-    # return redirect('detail.html')
+            return redirect("search")
     return redirect('/index', permanent=True)
 
 
-# @login_required(login_url='/login/')
-@login_required()
+@login_required(login_url='/login/')
+# @login_required()
 def favorite(request):
-    user = request.user.id
-    fav_prod = Product.objects.filter(user_id=user.id)
+    user_id = request.user.id
+    fav_prod = UserProduct.objects.filter(user_id)
     # paginator settings
     # page = request.GET.get('page')
     # paginator = Paginator(fav_prod, 9)
