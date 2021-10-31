@@ -1,17 +1,50 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#{% load static %}#}
+{#    <br><br><br><br><br>#}
+{##}
+{#    <div class="container" style="text-align: center;">#}
+{#        <h1 class="text-center ">Liste de vos aliments enregistrés :</h1>#}
+{#         <div class="row">#}
+{#            <ul>#}
+{#            {% for fav in favori %}#}
+{#                <li>{{ fav.name }}</li>#}
+{#            </ul>#}
+{#             {% empty %}#}
+{#             <h2>Pas encore d'aliment enregistré.</h2>#}
+{#             {% endfor %}#}
+{#         </div>#}
+{#    </div>#}
+{#{% endblock %}#}
+
+
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+    <br><br><br><br><br>
+<div class="container my-5">
+  <div class="my-5">
+    <h2>Liste de vos aliments enregistrés</h2>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col" >#</th>
+        <th scope="col">Nom du produit</th>
+        <th scope="col">Supprimer de votre liste</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for fav in favori %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td> {{ fav.name }}</td>
+        <td> <a href="{% url 'remove' pk=fav.pk %}" class="btn btn-danger btn-sm">supprimer</a> </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-    <div class="container" style="text-align: center;">
-        <h1 class="text-center ">Liste de vos aliments enregistrés :</h1>
-         <div class="row">
-            <ul>
-            {% for fav in favori %}
-                <li>{{ fav.name }}</li>
-            </ul>
-             {% empty %}
-             <h2>Pas encore d'aliment enregistré.</h2>
-             {% endfor %}
-         </div>
-    </div>
+</div>
+
 {% endblock %}

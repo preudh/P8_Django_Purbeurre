@@ -38,7 +38,7 @@ def search(request):
         if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
             fk_category = Category.objects.get(name=search)
             product = Product.objects.filter(category_id=fk_category.pk)
-            print(product)
+            # print(product)
             p1 = Product.objects.filter(category_id=fk_category.pk).first()
             return render(request, 'search.html', context={"product": product, "p1": p1})
 
@@ -59,7 +59,7 @@ def detail(request, product_id):
 
 @login_required(login_url='/login/')
 # @login_required()
-def save(request, product_id,):
+def save(request, product_id, ):
     """ . """
     if request.method == 'POST':
         user_id = request.user.id
@@ -75,34 +75,39 @@ def save(request, product_id,):
 # @login_required()
 def favorite(request):
     user_id = request.user.id
-    fav_prod = UserProduct.objects.filter(user_id)
-    # paginator settings
-    # page = request.GET.get('page')
-    # paginator = Paginator(fav_prod, 9)
-    # try:
-    #     favoris = paginator.page(page)
-    # except PageNotAnInteger:
-    #     favoris = paginator.page(1)
-    # except EmptyPage:
-    #     favoris = paginator.page(paginator.num_pages)
+    fav_products = UserProduct.objects.filter(user_id=user_id)
+
+    if fav_products.exists():
+        products = []
+        for fav_product in fav_products:
+            product = Product.objects.get(id=fav_product.product_id)
+            if product not in products:
+                products.append(product)
+
+    else:
+        return redirect('/index', permanent=True)
+
     context = {
-        'favori': fav_prod,
+        'favori': products,
         # 'paginate': True,
         # 'favoris': favoris
     }
     return render(request, 'favorite.html', context)
 
 
+@login_required(login_url='/login/')
+def remove_favorite(request, pk):
+    user_id = request.user.id
+    fav_products = UserProduct.objects.filter(user_id=user_id)
 
-
-
-
-
-
-
-
-
-
+    if fav_products.exists():
+        # remove_fav = fav_products.get(id=fav_products.pk)
+        remove_fav = fav_products.get(product_id=pk)
+        remove_fav.delete()
+        messages.warning(request, "Cet aliment est retiré de vos substituts")
+        return redirect('/favorite')
+    else:
+        return redirect('/index', permanent=True)
 
 
 
