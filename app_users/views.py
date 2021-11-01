@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout as django_logout, authenticate
 from django.contrib import messages
@@ -56,6 +58,16 @@ def register_request(request):
     # if the request is not a POST, then return the blank form in the register HTML template
     form = NewUserForm
     return render(request=request, template_name="register.html", context={"register_form": form})
+
+
+@login_required(login_url='/login/')
+# login_required()
+def my_account(request):
+    user = request.user
+    user = User.objects.filter(email=user.email).get()
+    context = {
+        'user': user}
+    return render(request, 'my_account.html', context)
 
 
 def logout(request):
