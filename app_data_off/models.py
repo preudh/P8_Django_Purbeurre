@@ -33,6 +33,10 @@ class Product(models.Model):
     image_front_url = models.URLField(max_length=150)
     image_nutrition_small_url = models.URLField(max_length=200, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)  # delete all the category model
+    # repere_fat100g=models.CharField(max_length=3)
+    # repere_saturatedfat100g=models.CharField(max_length=3)
+    # repere_sugars100g=models.CharField(max_length=3)
+    # repere_saltunit=models.CharField(max_length=3)
 
     def __str__(self):
         return self.name

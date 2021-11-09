@@ -17,7 +17,7 @@
                 <div class="input-group" style="padding-bottom: 30px;">
                     <form action="{% url 'search' %}" class="input-group" method="POST"> {% csrf_token %}
                     <input class="form-control" id="searchSubstitut" type="text" name="search" action="{% url 'search' %}"
-                    placeholder="Entrez le nom de la catégorie" required>
+                    placeholder="Entrez le nom de la catégorie ou du produit" required>
                     <button class="btn btn-danger" type="submit">Chercher</button>
                     </form>
                 </div>

@@ -7,6 +7,7 @@ from django.db.utils import DataError, IntegrityError
 from openfoodfacts import openfoodfacts
 # import personal module
 from app_data_off.models import Category, Product
+from app_data_off.management.commands.constante import list_categories
 
 
 def drop_everythings():
@@ -18,19 +19,19 @@ def drop_everythings():
 def get_product_off():
     """get 7 categories from fr.OFF database , categories number is limited voluntarily because heroku limits the number
     of row up to 10000, max 1000 product by category """
-    list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']
+    # list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']
 
     for category in list_categories:  # start of outer loop
-        cat_id = Category.objects.create(name=category)
+        cat_id=Category.objects.create(name=category)
         for product in openfoodfacts.products.get_all_by_category(category):  # start of inner loop for
             try:
-                name = product.get("product_name", None)
-                brand = product.get("brands", None)
-                nutrition_grade = product.get("nutrition_grades", None)
-                url = product.get("url", None)
-                image_front_url = product.get('image_front_url', None)
-                image_nutrition_small_url = product.get("image_nutrition_small_url", None)
-                store = product.get("stores", None)
+                name=product.get("product_name", None)
+                brand=product.get("brands", None)
+                nutrition_grade=product.get("nutrition_grades", None)
+                url=product.get("url", None)
+                image_front_url=product.get('image_front_url', None)
+                image_nutrition_small_url=product.get("image_nutrition_small_url", None)
+                store=product.get("stores", None)
                 # create and save an object in a single step, use the create() method.
                 Product.objects.create(name=name, brand=brand,
                                        store=store,
@@ -48,5 +49,3 @@ def get_product_off():
             except IntegrityError:
                 pass
             pprint(Product.name)
-
-

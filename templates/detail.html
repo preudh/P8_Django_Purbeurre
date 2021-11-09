@@ -1,20 +1,56 @@
 {% extends 'base.html' %}
 {% block content%}
 {% load static %}
-<br>
-<br>
-<br>
-<div class="container my-5">
-    <div class="row">
-        <div class="img-wrap"></div> <img src="{{p.image_front_url }}" alt="image du produit" style="width:300px; height:300px;padding:10px">
-        <h3 class=" ">{{ p.name }}</h3>
-            <ol>
-                <li><span class=""> {{ p.brand }}</span>
-                <li><span class=""> {{p.store }}</span>
-                <li><span class=""> {{p.nutrition_grade }}</span>
-                <li><span class=""> {{p.url }}</span><a href="{{ p.url}}<br>target="_blank">Voir la fiche Open Food Facts</a>
-
-            </ol>
-    </div>
-</div>
+<body>
+    <section>
+        <div class="text-center" id ="img_search">
+            <div class="header_img">
+                <div class="header_img mx-auto" >
+                   <div id="back_img"  class="img-responsive" style="background-image:url({{p.image_front_url}}">
+                       <h2>
+                           <a id="text_prod" class="text mb-5">
+                           {{p.name}}
+                           </a>
+                       </h2>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container" style=background:red>
+            <div class="row">
+                <div id="block1" class="col-md-6" style=background:yellow>
+                  {% if p.nutrition_grade == 'a' %}
+                    <img class="img-fluid" src="{% static 'img/nutriscore/A.png' %}" alt="nutriscore a">
+                  {% elif p.nutrition_grade == 'b' %}
+                    <img class="img-fluid" src="{% static 'img/nutriscore/B.png' %}" alt="nutriscore b">
+                  {% elif p.nutrition_grade == 'c' %}
+                    <img class="img-fluid" src="{% static 'img/nutriscore/C.png' %}" alt="nutriscore c">
+                  {% elif p.nutrition_grade == 'd' %}
+                    <img class="img-fluid" src="{% static 'img/nutriscore/D.png' %}" alt="nutriscore d">
+                  {% elif p.nutrition_grade == 'e' %}
+                    <img class="img-fluid" src="{% static 'img/nutriscore/E.png' %}" alt="nutriscore e">
+                  {% endif %}
+                </div>
+            </div>
+            <div id="block2" class="col-md-6" style=background:greenyellow;>
+                 <h4>Repères nutritionnels pour 100 g :</h4>
+{#                <h5><li>Matières grasses / Lipides : {{food.repere_fat100g}} g</li>#}
+{#                <li>Acides gras saturés : {{food.repere_saturatedfat100g}} g</li>#}
+{#                <li>Sucres : {{food.repere_sugars100g}} g</li>#}
+{#                <li>   Sel : {{food.repere_saltunit}} g</li></h5>#}
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container" style=background:blue;text-align:center>
+            <div class="row">
+                <div class="col">
+                    <a href="{{ p.url}}" class="btn btn-info" role="button">Voir la fiche Open Food Facts</a>
+                </div>
+            </div>
+        </div>
+     </section>
+</body>
 {% endblock %}

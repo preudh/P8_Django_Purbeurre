@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 # personal import
 from app_data_off.models import Product, Category, UserProduct
+from app_data_off.management.commands.constante import list_categories
 
 
 # Create your views here.
@@ -18,8 +19,8 @@ def termes(request):
 
 
 def index(request):
-    form = SearchForm(request.POST)
-    context = {
+    form=SearchForm(request.POST)
+    context={
         'form': form
     }
     return render(request, 'index.html', context)
@@ -29,35 +30,36 @@ def search(request):
     # if this is a POST request we need to process the form data
 
     if request.method == "POST":
-        search = request.POST.get('search')
-        if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
-            fk_category = Category.objects.get(name=search)
+        search=request.POST.get('search')
+        # if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
+        if search in list_categories:
+            fk_category=Category.objects.get(name=search)
             p1=Product.objects.filter(category_id=fk_category.pk).first()
             # products list order by ID
-
-            products = Product.objects.filter(category_id=fk_category.pk).order_by('id')
-            product_count = products.count()
+            products=Product.objects.filter(category_id=fk_category.pk).order_by('id')
+            product_count=products.count()
             # product_count = product_count - 1
             # paginator settings - pagination with only 6 products by page
-            paginator = Paginator(products, 6)
-            page_number = request.GET.get('page')
+            paginator=Paginator(products, 6)
+            page_number=request.GET.get('page')
             try:
-                page_obj = paginator.page(page_number)
+                page_obj=paginator.page(page_number)
             except PageNotAnInteger:
-                page_obj = paginator.page(1)
+                page_obj=paginator.page(1)
             except EmptyPage:
-                page_obj = paginator.page(paginator.num_pages)
-            context = {
+                page_obj=paginator.page(paginator.num_pages)
+            context={
                 'products': page_obj,
                 'p': p1,
                 'product_count': product_count,
+                'list_categories': list_categories,
                 'paginate': True,
             }
             return render(request, 'search.html', context)
 
         p1=Product.objects.filter(name=search).first()
-        products = Product.objects.filter(name__icontains=search).order_by('id')
-        product_count = products.count()
+        products=Product.objects.filter(name__icontains=search).order_by('id')
+        product_count=products.count()
 
         # paginator settings - pagination with only 6 products by page
         paginator=Paginator(products, 6)
@@ -78,9 +80,9 @@ def search(request):
 
 
 def detail(request, product_id):
-    form = SearchForm(request.POST)
-    p = get_object_or_404(Product, id=product_id)
-    context = {
+    form=SearchForm(request.POST)
+    p=get_object_or_404(Product, id=product_id)
+    context={
         'p': p,
         'form': form
     }
@@ -92,8 +94,8 @@ def detail(request, product_id):
 def save(request, product_id):
     """ . """
     if request.method == 'POST':
-        user_id = request.user.id
-        user_product = UserProduct.objects.filter(product_id=product_id, user_id=user_id)
+        user_id=request.user.id
+        user_product=UserProduct.objects.filter(product_id=product_id, user_id=user_id)
         if not user_product.exists():
             UserProduct.objects.create(product_id=product_id, user_id=user_id)
         else:
@@ -106,20 +108,20 @@ def save(request, product_id):
 @login_required(login_url='/login/')
 # @login_required()
 def favorite(request):
-    user_id = request.user.id
-    fav_products = UserProduct.objects.filter(user_id=user_id)
+    user_id=request.user.id
+    fav_products=UserProduct.objects.filter(user_id=user_id)
 
     if fav_products.exists():
-        products = []
+        products=[]
         for fav_product in fav_products:
-            product = Product.objects.get(id=fav_product.product_id)
+            product=Product.objects.get(id=fav_product.product_id)
             if product not in products:
                 products.append(product)
 
     else:
         return redirect('/index', permanent=True)
 
-    context = {
+    context={
         'favori': products,
         # 'paginate': True,
         # 'favoris': favoris
@@ -129,11 +131,11 @@ def favorite(request):
 
 @login_required(login_url='/login/')
 def remove_favorite(request, pk):
-    user_id = request.user.id
-    fav_products = UserProduct.objects.filter(user_id=user_id)
+    user_id=request.user.id
+    fav_products=UserProduct.objects.filter(user_id=user_id)
 
     if fav_products.exists():
-        remove_fav = fav_products.get(product_id=pk)
+        remove_fav=fav_products.get(product_id=pk)
         remove_fav.delete()
         messages.warning(request, "Cet aliment est retiré de vos substituts")
         return redirect('/favorite')
