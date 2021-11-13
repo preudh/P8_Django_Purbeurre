@@ -2,9 +2,7 @@
 {% block content%}
 {% load static %}
 <body>
-    <section >
-{#        <div class="text-center" id ="img_search" style="margin-top: 100px;margin-bottom: 30px">#}
-        <div class="text-center" id ="img_search">
+        <div class="text-center" id ="img_search" style="padding-top: 100px;padding-bottom: 30px">
             <div class="header_img">
                 <div class="header_img mx-auto" >
                    <div id="back_img"  class="img-responsive" style="background-image:url({{p.image_front_url}}">
@@ -17,22 +15,21 @@
                 </div>
             </div>
         </div>
-    </section>
 
     <div class="container-fluid">
         <div class="row">
                 <div style="text-align:center; color:red;">
                     <h3>Vous pouvez remplacer cet aliment par: </h3>
                 </div>
-{#                <br>#}
-{#                <br>#}
-{#                <br>#}
+                <br>
+                <br>
+                <br>
                 {% if products %}
                     {% for product in products %}
                         <div class="col-md-4"> <!--3 col of 4 = 12 for md medium devices equal or greater than 768px tablets and more -->
                             <figure class="card card-product-grid" style="text-align: center">
                                 <div class="img-wrap">
-                                    <div class="card_header">
+                                    <div class="card_header" style="background-color:#f05f40;position:relative; float: right;font-size: 16px; border-radius:30%;margin-top:-10px;margin-right:-5px;color:white;">
                                         <div>{{ product.nutrition_grade|upper}}</div>
                                     </div>
                                         <a href="{{ product.url }}"><img src="{{ product.image_front_url }}" alt="image du produit" style="width:100%; height:300px;padding:10px; margin-top: 10px"></a>
@@ -51,7 +48,7 @@
                     {% endfor %}
                 {% else %}
                     <div style="text-align: center;color:red">
-                        <span>Désolé, ce produit ne figure dans notre catalogue. Regardez la liste des categories à gauche de la barre de recherche.</span>
+                        <span>Désolé, ce produit ne figure dans notre catalogue.</span>
                     </div>
                 {% endif %}
             </div> <!-- row end.// -->
