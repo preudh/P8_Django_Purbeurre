@@ -1,8 +1,29 @@
 
 list_categories = [
-    'Viandes',
-    'Poissons',
+    "Aides culinaires",
+    "Barres chocolatées",
+    "Barres de céréales",
+    "Boissons lactées",
+    "Bonbons gélifiés",
+    "Chocolats",
+    "Confitures de fraises",
+    "Crèmes glacées en pot",
+    "Crêpes et galettes",
+    "Eaux de sources",
     'Epicerie',
-    'Chocolats',
-    'Pates-a-tartiner'
+    "Escalopes de dinde",
+    "Jambons secs",
+    "Jus de fruits à base de concentré",
+    "Laits demi-écrémés",
+    "Nouilles",
+    'Pates-a-tartiner',
+    "Poissons",
+    "Rillettes de poissons",
+    "Sardines à l'huile",
+    "Saumons fumés",
+    "Veloutés de légumes",
+    "Viandes",
+    "Vins rouges",
+    "Yaourts brassés",
 ]
+

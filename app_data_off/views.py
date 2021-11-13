@@ -19,10 +19,10 @@ def drop_everythings():
 def get_product_off():
     """get 7 categories from fr.OFF database , categories number is limited voluntarily because heroku limits the number
     of row up to 10000, max 1000 product by category """
-    # list_categories = ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']
 
     for category in list_categories:  # start of outer loop
         cat_id=Category.objects.create(name=category)
+        #  To get all products for agiven category without pagination (returns a generator):
         for product in openfoodfacts.products.get_all_by_category(category):  # start of inner loop for
             try:
                 name=product.get("product_name", None)

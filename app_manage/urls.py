@@ -13,5 +13,5 @@ urlpatterns = [
     path('save/<int:product_id>', views.save, name='save'),
     path('favorite/', views.favorite, name='favorite'),
     path('remove_favorite/<int:pk>', views.remove_favorite, name='remove'),
-
+    # path('ajax/load_categories/', views.load_categories, name='ajax_load_categories'),
 ]

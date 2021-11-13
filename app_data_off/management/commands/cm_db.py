@@ -35,7 +35,7 @@ class Command(DebugMixin, BaseCommand):
             drop_everythings()
             print("Reinitialisation of purbeurre database")
             get_product_off()
-            print("get products from the 5 categories OFF database")
+            print("get products from the n categories OFF database")
             # Make the changes to the database persistent
             conn.commit()
             # Close communication with the database

@@ -39,7 +39,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td> {{ fav.name }}</td>
-        <td> <a href="{% url 'remove' pk=fav.pk %}" class="btn btn-danger btn-sm">supprimer</a> </td>
+        <td> <a href="{% url 'remove' pk=fav.pk %}" class="btn btn-primary btn-sm">supprimer</a> </td>
       </tr>
       {% endfor %}
     </tbody>

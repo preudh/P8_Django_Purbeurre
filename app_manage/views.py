@@ -26,19 +26,20 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+# def load_categories(request):
+#     return render(request, 'search.html', {'list_categories': list_categories})
+
+
 def search(request):
     # if this is a POST request we need to process the form data
 
     if request.method == "POST":
         search=request.POST.get('search')
-        # if search in ['Viandes', 'Poissons', 'Epicerie', 'Chocolats', 'Pates-a-tartiner']:
         if search in list_categories:
             fk_category=Category.objects.get(name=search)
             p1=Product.objects.filter(category_id=fk_category.pk).first()
-            # products list order by ID
-            products=Product.objects.filter(category_id=fk_category.pk).order_by('id')
-            product_count=products.count()
-            # product_count = product_count - 1
+
+            products=Product.objects.filter(category_id=fk_category.pk).order_by('nutrition_grade')
             # paginator settings - pagination with only 6 products by page
             paginator=Paginator(products, 6)
             page_number=request.GET.get('page')
@@ -51,15 +52,13 @@ def search(request):
             context={
                 'products': page_obj,
                 'p': p1,
-                'product_count': product_count,
                 'list_categories': list_categories,
                 'paginate': True,
             }
             return render(request, 'search.html', context)
 
-        p1=Product.objects.filter(name=search).first()
-        products=Product.objects.filter(name__icontains=search).order_by('id')
-        product_count=products.count()
+        products=Product.objects.filter(name__icontains=search).order_by('nutrition_grade')
+        p1=Product.objects.filter(name__icontains=search).first()
 
         # paginator settings - pagination with only 6 products by page
         paginator=Paginator(products, 6)
@@ -73,8 +72,8 @@ def search(request):
         context={
             'products': page_obj,
             'p': p1,
-            'product_count': product_count,
             'paginate': True,
+            'list_categories': list_categories,
         }
         return render(request, 'search.html', context)
 

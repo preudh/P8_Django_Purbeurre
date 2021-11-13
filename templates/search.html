@@ -3,6 +3,7 @@
 {% load static %}
 <body>
     <section >
+{#        <div class="text-center" id ="img_search" style="margin-top: 100px;margin-bottom: 30px">#}
         <div class="text-center" id ="img_search">
             <div class="header_img">
                 <div class="header_img mx-auto" >
@@ -21,8 +22,11 @@
     <div class="container-fluid">
         <div class="row">
                 <div style="text-align:center; color:red;">
-                    <h3>Vous pouvez remplacer cet aliment par {{ product_count}} substituts </h3>
+                    <h3>Vous pouvez remplacer cet aliment par: </h3>
                 </div>
+{#                <br>#}
+{#                <br>#}
+{#                <br>#}
                 {% if products %}
                     {% for product in products %}
                         <div class="col-md-4"> <!--3 col of 4 = 12 for md medium devices equal or greater than 768px tablets and more -->
@@ -46,8 +50,8 @@
                         </div> <!-- col.// -->
                     {% endfor %}
                 {% else %}
-                    <div>
-                        <h2>Désolé, ce produit ne figure dans notre catalogue. Essayez à nouveau.</h2>
+                    <div style="text-align: center;color:red">
+                        <span>Désolé, ce produit ne figure dans notre catalogue. Regardez la liste des categories à gauche de la barre de recherche.</span>
                     </div>
                 {% endif %}
             </div> <!-- row end.// -->
