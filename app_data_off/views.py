@@ -32,7 +32,7 @@ def get_product_off():
                 image_front_url=product.get('image_front_url', None)
                 image_nutrition_small_url=product.get("image_nutrition_small_url", None)
                 store=product.get("stores", None)
-                # create and save an object in a single step, use the create() method.
+                # create and save an object in a single step (instantiation), use the create() method.
                 Product.objects.create(name=name, brand=brand,
                                        store=store,
                                        nutrition_grade=nutrition_grade,

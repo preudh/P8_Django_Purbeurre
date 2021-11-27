@@ -25,9 +25,6 @@
     color: #e45a3d;
     font-weight: bold;
     animation: glow 1s ease-in-out infinite alternate;
-     /*box-shadow: 0 0 10px #c45525;*/
-    /*color: #fff;*/
-    /*font-size: 80px;*/
 }
 
 #back_img
@@ -71,16 +68,3 @@ h3.card_header
   opacity: 0;
 }
 
-/*.custom-select*/
-/*{*/
-/*    display: inline-block;*/
-/*    height: calc(1);*/
-/*}*/
-
-
-
-
-/*.clearfix*/
-/*{*/
-/*    background-color:#c45525;*/
-/*}*/

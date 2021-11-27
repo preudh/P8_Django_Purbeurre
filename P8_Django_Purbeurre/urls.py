@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include  # Functions for use in URLsconfs
+admin.autodiscover()
 
 urlpatterns = [
     # '' means home page, when someone goes to home page the controller will go to app_manage app here we have urls.py

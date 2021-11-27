@@ -32,7 +32,7 @@
                                     <div class="card_header" style="background-color:#f05f40;position:relative; float: right;font-size: 16px; border-radius:30%;margin-top:-10px;margin-right:-5px;color:white;">
                                         <div>{{ product.nutrition_grade|upper}}</div>
                                     </div>
-                                        <a href="{{ product.url }}"><img src="{{ product.image_front_url }}" alt="image du produit" style="width:100%; height:300px;padding:10px; margin-top: 10px"></a>
+                                        <a href="{{ product.url }}"><img src="{{ product.image_front_url }}" alt="{{ product.image_front_url }}" style="width:100%; height:300px;padding:10px; margin-top: 10px"></a>
                                     </div> <!-- img-wrap.// -->
                                 <figcaption class="info-wrap">
                                     <div class="fix-height">
@@ -48,29 +48,38 @@
                     {% endfor %}
                 {% else %}
                     <div style="text-align: center;color:red">
-                        <span>Désolé, ce produit ne figure dans notre catalogue.</span>
+                        <span>Désolé, ce produit ne figure dans notre catalogue:</span>
+                        <br><br>
+                        <span>{% for category in list_categories %}</span>
+                              <ul style="list-style-type:none;">
+                                  <li> {{forloopcounter}}.{{category}}</li>
+                               </ul>
+                              {% endfor %}
                     </div>
                 {% endif %}
             </div> <!-- row end.// -->
-<br>
-            {% if paginate %}
-                <!-- pagination button -->
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col-lg-6 mx-auto text-center">
-                                    {% if products.has_previous %}
-                                        <a class="btn btn-light btn-l sr-button" style="color:red" href="?page={{ products.previous_page_number }}">Précédent</a>
-                                    {% endif %}
-                                    {% if products.has_next %}
-                                        <a class="btn btn-light btn-l sr-button" style="color:red" href="?page={{ products.next_page_number }}">Suivant</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-            {% endif %}
-    </div>
-  </div>
-</body>
+            <br>
+                <div class="pagination">
+                    <span class="step-links">
+                    <!--Here we are checking if the page object has previous page, if so then add links to the first page and previous page.
+                    This line ?page=1 means we are passing data to the server using the GET method, we are passing the value of 1 to the page parameter-->
+                        {% if products.has_previous %}
+                            <a href="?page=1">&laquo; premier</a>
+                            <a href="?page={{ products.previous_page_number }}">précédent</a>
+                             <a href="{%  url 'search' %}?page={{ products.previous_page_number }}">précédent</a>
+                        {% endif %}
+                    <!--shows the current page number against total number of pages-->
+                    <span class="current">
+                        Page {{ products.number }} de {{ products.paginator.num_pages }}.
+                    </span>
+                    <!--This line checks if the page object has next page, if so show links for the next page and the last page-->
+                    {% if products.has_next %}
+                        <a href="?page={{ products.next_page_number }}">suivant</a>
+                        <a href="?page={{ products.paginator.num_pages }}">dernier &raquo;</a>
+                        <a href="{%  url 'search' %}?page={{ products.next_page_number }}">suivant</a>
+                    {% endif %}
+                    </span>
+                </div>
+            </div>
 <br>
 {% endblock %}
-
-

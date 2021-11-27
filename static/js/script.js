@@ -1,21 +1,18 @@
-// const category_list = new XMLHttpRequest();
-// category_list.onload = function() {
-//   document.getElementById("populate_list").innerHTML =
-//   "#";
-// }
+// erase img border when no product found search.html
 
-// let border_search = document.getElementById("back_img");
-// border_search.innerHTML = "<div style='border-style:none;'></div>";
+let border_search;
+border_search = document.getElementById("back_img");
 
 
-// let border_search = document.getElementById("back_img");
-//
-// if(border_search.value === undefined ) {
-//     border_search.style.border = "none"
-// }
+function eraseBorder (border_search) {
+        if (border_search.outerText === "")
+    {
+        border_search.style.borderStyle = "none";
+    }
+}
 
+eraseBorder(border_search);
 
 
 
-// let list_categories = document.getElementById("populate_list");
-// list_categories.append('Aides culinaires');
+

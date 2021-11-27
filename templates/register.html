@@ -6,16 +6,30 @@
 {% load crispy_forms_tags %}
 
 <!--Register-->
-<!--py = padding top and bottom-->
-
 <div class="container py-5 my-5">
+<br>
 	<h1>Inscription</h1>
-	<form method="POST">
-		{% csrf_token %}
-		{{ register_form|crispy }}
+	<form action = "{% url 'register' %}" method="POST">
+        {% csrf_token %} <!-- for security purpose - token send to the server and accept this data-->
+        {{ register_form|crispy }}
 		<button class="btn btn-primary" type="submit">Register</button>
 	</form>
-	<p class="text-center">Si vous avez déjà un compte <a href="/login">login</a> connectez-vous </p>
-</div>
+    <br>
+    <p class="text-center">Si vous avez déjà un compte <a href="{% url 'login' %}">Connectez-vous</a></p>
 
+{#        {% if messages %}#}
+{#            {% for message in messages %}#}
+{#        <p>{{ message }}</p>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+</div>
 {% endblock %}
+

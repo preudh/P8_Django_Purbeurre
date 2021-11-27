@@ -1,6 +1,8 @@
 # Create your models here.
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
+# no verbose name added on attributes to simplify
+
 
 """ Models declaration """
 

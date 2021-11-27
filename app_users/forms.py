@@ -9,16 +9,21 @@ from django.contrib.auth.models import User
 
 
 class NewUserForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    # Customize the Django UserCreationForm because has only 3 fields  username (from USER model), password1 and
+    # password2
 
+    email=forms.EmailField(required=True)  # the email field is declared
+
+    # class meta allows to precise with which data class NewUserForm can work
     class Meta:
-        model = User
-        fields = ("username", "email", "password1", "password2")
+        model=User  # attribute model, specify here the model that we want to link to the form
+        fields=("username", "email", "password1", "password2")  # fields that we want to display
 
+    # function that overwrites the default save function to include the email field we added
     def save(self, commit=True):
-        user = super(NewUserForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
+        #  commit=False, then it will return an object that hasn't yet been saved to the database.
+        user=super(NewUserForm, self).save(commit=False)
+        user.email=self.cleaned_data['email']
         if commit:
             user.save()
         return user
-

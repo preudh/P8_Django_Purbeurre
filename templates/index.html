@@ -15,7 +15,8 @@
                     <br>Trouvez un produit de substitution pour ceux que vous consommez tous les jours<br></p>
                 </div>
                 <div class="input-group" style="padding-bottom: 30px;">
-                    <form action="{% url 'search' %}" class="input-group" method="POST"> {% csrf_token %}
+                    <form action="{% url 'search' %}" class="input-group" method="POST">
+                        {% csrf_token %}
                     <input class="form-control" id="searchSubstitut" type="text" name="search" action="{% url 'search' %}"
                     placeholder="Entrez le nom de la catégorie ou du produit" required>
                     <button class="btn btn-danger" type="submit">Chercher</button>
@@ -31,7 +32,6 @@
                     <br>
                     <h2 class="text-white section-heading" style="font-family: 'Open Sans', sans-serif;">Colette et Remy<br></h2>
                     <hr class="light my-4">
-{#                    <p class="text-faded mb-4" style="font-size: 30px;color: rgba(254,254,254,0.7);font-family: 'Open Sans', sans-serif;#}
                     <p class="text-faded mb-4">
                         Nous sommes une jeune startup fondée par Remy et<br>Colette Tatou, deux restaurateurs de renom. Notre restaurant,
                     situé à<br>Montmartre (Paris), compte une cinquantaine de couverts et ne désemplit pas<br></p>
@@ -43,9 +43,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p><img src="{% static 'img/colette-tatou-full.png' %}">Collette</p>
+                    <p><img src="{% static 'img/colette-tatou-full.png' %}" alt="image colette">Collette</p>
                 </div>
-                <div class="col-md-6"><img src="{% static 'img/remy.jpg'  %}" style="padding: 0px;margin: 0px;">
+                <div class="col-md-6"><img src="{% static 'img/remy.jpg'  %}" alt="image remy">
                     <p>Remy</p>
                 </div>
             </div>

@@ -9,6 +9,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
+    <!-- Bootstrap 5 Autocomplete -->
+{#    <script src="{% static 'js/autocomplete.js' %}"></script>#}
+
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
@@ -42,27 +45,9 @@
             <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-align-justify"></i></button>
                 <form action="{% url 'search' %}" class="input-group" method="POST">
                     {% csrf_token %}
-                    <input class="form-control" type="text" name="search" placeholder="Recherche " required>
+                    <input class="form-control" id="myAutocomplete" type="text" name="search" placeholder="Recherche" required>
                     <button class="btn btn-danger" type="submit">Chercher</button>
                 </form>
-
-{#            <div class="col-xl-6 col-lg-5 col-md-6">#}
-{#				<form action="{% url 'search' %}" class="search-header"  id="search-header" method="POST">#}
-{#                     {% csrf_token %}#}
-{#					<div class="input-group">#}
-{#                            <select class="custom-select" name="search" >#}
-{#                                    <option selected="selected">Toutes nos catégories</option>#}
-{#                                    {% for category in list_categories %}#}
-{#                                    <option value="">{{ category }}</option>#}
-{#                                    {% endfor %}#}
-{#                            </select>#}
-{#                        <label>#}
-{#                            <input type="text" class="form-control" name="search" id="populate_list" placeholder="Entrez le nom du produit ou de la categorie">#}
-{#                        </label>#}
-{#                        <button class="btn btn-danger" type="submit">Chercher</button>#}
-{#				    </div>#}
-{#				</form> <!-- search-wrap .end// -->#}
-{#			</div> <!-- col.// -->#}
 
             <div class="collapse navbar-collapse" id="navbarResponsive" >
                 <ul class="navbar-nav">
@@ -113,5 +98,6 @@
 
     <!--Custom JS-->
     <script src="{% static 'js/script.js' %}"></script>
+
 </body>
 </html>

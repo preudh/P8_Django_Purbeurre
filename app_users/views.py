@@ -15,57 +15,49 @@ from .forms import NewUserForm
 
 def login_request(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form=AuthenticationForm(request, data=request.POST)  # data to name the parameter
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            # authenticate function is used to verify user credentials (username and password)
-            # and return the correct User object stored in the backend.
-            user = authenticate(username=username, password=password)
-            # If the backend authenticated the credentials, the function will run Django login() to log in to the
-            # authenticated user
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")  # ne sert à rien
-                # return redirect("main page")
-                return redirect('/index/')  # a revoir car doit rediriger vers page principale
-            # if the user is not authenticated, it returns a message error
-            else:
-                messages.error(request, "Invalid username or password.")  # ne sert à rien
-        # if the form is not valid, then it returns a similar error message
-        else:
-            messages.error(request, "Invalid username or password.")  # ne sert à rien
-    #  if the request is not a POST, then return the blank form in the login HTML template
-    form = AuthenticationForm()
-    return render(request=request, template_name="login.html", context={"login_form": form})
+            # retrieve the user
+            user=form.get_user()
+            # log the user in
+            login(request, user)
+            return redirect('/my_account/')
+    else:
+        #  if the request is not a POST, then return the blank form in the login HTML template
+        form=AuthenticationForm()
+        return render(request=request, template_name="login.html", context={"login_form": form})
+
+
+# class Validator:
+#     @staticmethod
+#     # verify single email in the database. Not by default on User Django model.
+#     def valid_email_didnt_exist(email):
+#         return User.objects.get(email=email).exists()  # return true SI email existe deja
 
 
 def register_request(request):
-    # checks to see if the form is being posted
-    if request.method == "POST":
-        form = NewUserForm(request.POST)
-        # checks to see if the form is valid
-        if form.is_valid():
-            # If both are true, then the form information is saved under a user
-            user = form.save()
-            # the user is logged in
+    # checks if the form is posted
+    if request.method == 'POST':  # detect if the request is POST for sending data to the server do:
+        # .POST to access the data which comes along with the post request
+        # we pass the data to a new instance of the NewUserForm (inherited from UserCreationForm)
+        # kind of Validating data for us (pwd, user already exists or not, etc)
+        form=NewUserForm(request.POST)
+        if form.is_valid():  # check if the form is valid, return true or false
+            user=form.save()  # return the user to us and we allocate it to variable
+            # log the user in
             login(request, user)
-            #  the user is redirected to the homepage showing a success message.
-            messages.success(request, "Registration successful.")  # message ne sert à rien avec crispy
-            return redirect('/index/')
-        # if the form is not valid, an error message is shown
-        messages.error(request, "Unsuccessful registration. Invalid information.")  # meassage ne sert a rien avec crysp
-    # if the request is not a POST, then return the blank form in the register HTML template
-    form = NewUserForm
+            return redirect('/my_account/')
+    else:
+        form=NewUserForm  # fresh version of the form if not POST and sending blank it
     return render(request=request, template_name="register.html", context={"register_form": form})
 
 
 @login_required(login_url='/login/')
 # login_required()
 def my_account(request):
-    user = request.user
-    user = User.objects.filter(email=user.email).get()
-    context = {
+    user=request.user
+    user=User.objects.filter(email=user.email).get()
+    context={
         'user': user}
     return render(request, 'my_account.html', context)
 

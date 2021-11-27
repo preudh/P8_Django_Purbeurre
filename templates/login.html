@@ -10,13 +10,35 @@
 <div class="container py-5 my-5">
 <br><br>
     <h1>Login </h1>
-  <form method="POST">
+  <form  action = "{% url 'login' %}" method="POST">
     {% csrf_token %}
     {{ login_form|crispy }}
+{#    {% if login_form.errors %}#}
+{#        <p>L'email ou le mot de passe est incorrect.</p>#}
+{#    {% endif %}#}
     <button class="btn btn-primary" type="submit">Login</button>
   </form>
-  <p class="text-center">Vous n'avez pas de compte ? <a href="/register">Créer un compte</a>.</p>
-</div>
+    {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+  <p class="text-center">Vous n'avez pas de compte ? <a href="{% url 'register' %}">Créer un compte</a></p>
 
+{#        {% if messages %}#}
+{#        <ul class="messages">#}
+{#            {% for message in messages %}#}
+{#            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#        {% endif %}#}
+
+{#        {% if messages %}#}
+{#            {% for message in messages %}#}
+{#        <p>{{ message }}</p>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+
+</div>
 {% endblock %}
 

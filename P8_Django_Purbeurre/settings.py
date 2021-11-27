@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 # import django_heroku
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR=Path(__file__).resolve().parent.parent
@@ -124,13 +125,13 @@ AUTH_PASSWORD_VALIDATORS=[
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE='fr'
 
-TIME_ZONE='Europe/Paris'
+TIME_ZONE='UTC'
 
 USE_I18N=True
 
 USE_L10N=True
 
-USE_TZ=False  # True
+USE_TZ= True  # True to take in charge local time = TIME_ZONE
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
