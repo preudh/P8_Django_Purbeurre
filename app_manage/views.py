@@ -32,7 +32,7 @@ def search(request):
         search=request.POST.get('search')
         if search in list_categories:
 
-            # gets the category in the database and its id (primary key) which name equals to search and result is
+            # gets the category in the database which name equals to search and result is
             # assigned to the fk_category variable
             fk_category=Category.objects.get(name=search)
 
@@ -41,7 +41,8 @@ def search(request):
 
             # get all products ordered by nutriscore of the category
             # type Queryset and then SQL generated when affected to variable
-            products=Product.objects.filter(category_id=fk_category.id).order_by('nutrition_grade')
+            # products=Product.objects.filter(category_id=fk_category.id).order_by('nutrition_grade')
+            products=fk_category.product_set.all().order_by("nutrition_grade")
 
             # Paginator class to split the results of products variable into pages and each page has only 6 products
             paginator=Paginator(products, 6)  # products = cache = None!
@@ -54,7 +55,7 @@ def search(request):
             page_number=request.GET.get('page', 1)  # ok
             try:
                 # returns a Page object and If the page isn’t a number, it returns the first page.
-                page_obj=paginator.page(page_number) # ok
+                page_obj=paginator.page(page_number)  # ok
             except PageNotAnInteger:
                 # If page is not an integer, deliver first page.
                 page_obj=paginator.page(1)
@@ -64,6 +65,7 @@ def search(request):
                 page_obj=paginator.page(paginator.num_pages)
 
         else:
+            # products=Product.objects.filter(name__icontains=search).order_by('nutrition_grade')
             products=Product.objects.filter(name__icontains=search).order_by('nutrition_grade')
             p1=Product.objects.filter(name__icontains=search).first()
 

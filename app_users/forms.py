@@ -22,8 +22,9 @@ class NewUserForm(UserCreationForm):
     # function that overwrites the default save function to include the email field we added
     def save(self, commit=True):
         #  commit=False, then it will return an object that hasn't yet been saved to the database.
+        # important to call the method of the parent class with super().save(*args, **kwargs)) to record in db
         user=super(NewUserForm, self).save(commit=False)
-        user.email=self.cleaned_data['email']
+        user.email=self.cleaned_data['email']  # the dictionary clean_data contains valid fields
         if commit:
             user.save()
         return user
