@@ -57,7 +57,7 @@ def register_request(request):
             else:
                 # if the form is not valid, an error message is shown
                 # messages.error(request, "email déjà utilisé!")
-                error="Addresse de courriel déjà utilisée par un autre utilisateur!"
+                error="Username ou Addresse de courriel déjà utilisée par un autre utilisateur!"
                 context={
                     "register_form": form,
                     "error": error,

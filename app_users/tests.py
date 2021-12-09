@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from P8_Django_Purbeurre.app_users.views import register_request
+# from P8_Django_Purbeurre.app_users.views import login
 
 # Create your tests here.
 
@@ -11,11 +11,11 @@ from django.urls import reverse
 class RegisterPageTestCase(TestCase):
 
     # test register a new user
-    def test_new_user_registered(self): # garder le nom de la methode
-        old_users=User.objects.count() # ne pas faire
+    def test_new_user_registered(self):  # garder le nom de la methode
+        old_users=User.objects.count()  # ne pas faire
         password='Testpassword'
         user=User.objects.create(username='Regis', email='register@test.com')
-        user.set_password(password)
+        user.set_password(password) # methode custom =
         user.save()
         username=user.username
         email=user.email
@@ -27,6 +27,8 @@ class RegisterPageTestCase(TestCase):
         })
         new_users=User.objects.count()
         self.assertEqual(new_users, old_users + 1)
+
+        # todo faire create user et compater à ma variable
 
 
 # Login Page
