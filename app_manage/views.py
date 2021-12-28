@@ -26,10 +26,14 @@ def index(request):
 
 
 def search(request):
-    # if this is a POST request we need to process the form data
-
-    if request.method == "POST":
-        search=request.POST.get('search')
+    # For method GET data is passed along with url.
+    # dict request.GET and q is the key and variable is the value
+    # Use GET if:
+    # The interaction is more like a question (i.e., it is a safe operation such as a query, read operation, or lookup).
+    # if request.method == "POST":
+    if request.method == 'GET':
+        # search=request.POST.get('search')
+        search=request.GET.get('search')
         if search in list_categories:
 
             # gets the category in the database which name equals to search and result is
@@ -43,26 +47,32 @@ def search(request):
             # type Queryset and then SQL generated when affected to variable
             # products=Product.objects.filter(category_id=fk_category.id).order_by('nutrition_grade')
             products=fk_category.product_set.all().order_by("nutrition_grade")
-
-            # Paginator class to split the results of products variable into pages and each page has only 6 products
-            paginator=Paginator(products, 6)  # products = cache = None!
-
             # request.GET contains GET variables and appear in the address bar,e.g http://127.0.0.1:8000/?page=2
             # The .get() is a python method used to return the value of items with a specific key from
             # a dictionary. If nothing is found None is returned.
             # if the url of the GET request has 'page' parameter, get it. If it does not, return 1 by default.
             # so get the value of a GET variable that has a name of 'page' and then assign that to page_number variable
-            page_number=request.GET.get('page', 1)  # ok
+            # page_number=request.GET.get('page', 1)
+            page_number=request.GET.get('page')
+            # ok
+            # paginator settings
+            # Paginator class to split the results of products variable into pages and each page has only 6 products
+            paginator=Paginator(products, 6)  # products = cache = None!
+
             try:
                 # returns a Page object and If the page isn’t a number, it returns the first page.
-                page_obj=paginator.page(page_number)  # ok
+                # page_obj=paginator.page(page_number)  # ok
+                # page_obj=paginator.get_page(page_number)  # new replace top
+                page_obj=paginator.page(page_number)
             except PageNotAnInteger:
                 # If page is not an integer, deliver first page.
                 page_obj=paginator.page(1)
+                # page_obj=paginator.get_page(1)
             except EmptyPage:
                 # If page is out of range
                 # Delivery last page of results
                 page_obj=paginator.page(paginator.num_pages)
+                # page_obj=paginator.get_page(paginator.num_pages)
 
         else:
             # products=Product.objects.filter(name__icontains=search).order_by('nutrition_grade')
@@ -73,15 +83,17 @@ def search(request):
             page_number=request.GET.get('page', 1)
             try:
                 page_obj=paginator.page(page_number)
+                # page_obj=paginator.get_page(page_number)  # new replace top
             except PageNotAnInteger:
                 page_obj=paginator.page(1)
+                # page_obj=paginator.get_page(1)
             except EmptyPage:
                 page_obj=paginator.page(paginator.num_pages)
-
+                # page_obj=paginator.get_page(paginator.num_pages)
         context={
             'products': page_obj,
             'p': p1,
-            # 'paginate': True,
+            'paginate': True,
             'list_categories': list_categories,
         }
         return render(request, 'search.html', context)

@@ -43,7 +43,8 @@
                 <img src="{% static 'img/logo_pur_beurre.png' %}" id="fitlogo" alt="logo pur beurre" title="accueil">
             </a>
             <button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-align-justify"></i></button>
-                <form action="{% url 'search' %}" class="input-group" method="POST">
+{#                <form action="{% url 'search' %}" class="input-group" method="POST">#}
+                <form action="{% url 'search' %}" class="input-group" method="GET">
                     {% csrf_token %}
                     <input class="form-control" id="myAutocomplete" type="text" name="search" placeholder="Recherche" required>
                     <button class="btn btn-danger" type="submit">Chercher</button>
@@ -82,8 +83,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <a href="{% url 'termes' %}">Mentions légales</a>
-            <a href="{% url 'index' %}#contact">Contact</a>
+            <a id="termes" href="{% url 'termes' %}">Mentions légales</a>
+            <a id="contact" href="{% url 'index' %}#contact">Contact</a>
           </div>
         </div>
       </div>
