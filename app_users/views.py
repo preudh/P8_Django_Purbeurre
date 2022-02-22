@@ -13,6 +13,7 @@ from .forms import NewUserForm
 
 
 def login_request(request):
+    form=AuthenticationForm()
     if request.method == "POST":
         form=AuthenticationForm(request, data=request.POST)  # data to name the parameter
         if form.is_valid():
@@ -21,10 +22,10 @@ def login_request(request):
             # log the user in
             login(request, user)
             return redirect('/my_account/')
-    else:
-        #  if the request is not a POST, then return the blank form in the login HTML template
-        form=AuthenticationForm()
-        return render(request=request, template_name="login.html", context={"login_form": form})
+        else:
+            # if the request is not a POST, then return the blank form in the login HTML template
+            form=AuthenticationForm()
+    return render(request=request, template_name="login.html", context={"login_form": form})
 
 
 class Validator:
@@ -56,16 +57,12 @@ def register_request(request):
                 return redirect('/my_account/')
             else:
                 # if the form is not valid, an error message is shown
-                # messages.error(request, "email déjà utilisé!")
-                error="Username ou Addresse de courriel déjà utilisée par un autre utilisateur!"
+                error="Username ou Addresse de courriel déjà utilisés par un autre utilisateur!"
                 context={
                     "register_form": form,
                     "error": error,
                 }
                 return render(request, 'register.html', context)
-
-                # return render(request=request, template_name="register.html", context={'error': error})
-                # raise forms.ValidationError("Addresse de courriel ou mot de passe déjà utilisés")
 
     form=NewUserForm  # fresh version of the form if not POST and sending blank it
     return render(request=request, template_name="register.html", context={"register_form": form})

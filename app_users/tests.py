@@ -1,80 +1,52 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.contrib.auth.models import User
-# from P8_Django_Purbeurre.app_users.views import login
-
-# Create your tests here.
-
-# Register Page
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
-class RegisterPageTestCase(TestCase):
+class CustomUserTests(TestCase):
+    """ we do not need to test all log in and log out features since those are built into Django and have already tests
+    except test for several users that must not have the same email"""
 
-    # test register a new user
-    def test_new_user_registered(self):  # garder le nom de la methode
-        old_users=User.objects.count()  # ne pas faire
-        password='Testpassword'
-        user=User.objects.create(username='Regis', email='register@test.com')
-        user.set_password(password) # methode custom =
-        user.save()
-        username=user.username
-        email=user.email
-        password=user.password
-        self.client.post(reverse('register_request'), {
-            'name': username,
-            'email': email,
-            'password': password
-        })
-        new_users=User.objects.count()
-        self.assertEqual(new_users, old_users + 1)
-
-        # todo faire create user et compater à ma variable
-
-
-# Login Page
-class LoginPageTestCase(TestCase):
-
-    # database test values
     def setUp(self):
-        self.user=User.objects.create(username='Saitama', email='saitama@one.punch')
-        self.user.set_password('testpassword')
-        self.user.save()
+        url=reverse('register')
+        self.response=self.client.get(url)
 
-    # test if login page authenticated user
-    def test_login(self):
-        response=self.client.post(reverse('login'), {
-            'username': self.user.username,
-            'password': 'testpassword'
-        }, follow=True)
-        self.client.login(username=self.user.username, password=self.user.password)
-        self.assertTrue(response.context['user'].is_authenticated)
+    def test_not_possible_create_users_with_same_email(self):
+        user_1=User.objects.create_user(
+            username='will',
+            email='will@email.com',
+            password='testpass123',
+        )
+        user_2=User.objects.create_user(
+            username='bob',
+            email='will@email.com',
+            password='testpass124',
+        )
+        # error message in case if test case got failed
+        message="email value and second value are equal !"
+        # make sure we can't create a second user with the same email.
+        # self.assertNotEqual(user_1.email, user_2.email, message)
+        # with user_1.email == user_2.email:
+        #     self.assertTrue(False)
 
-    # test if login page return Anonymous with fake user
-    def test_login_fake_user(self):
-        response=self.client.post(reverse('login'), {
-            'username': 'Fake_user',
-            'password': 'fakepassword'
-        }, follow=True)
-        self.client.login(username='Fake_user', password='fakepassword')
-        self.assertTrue(response.context['user'].is_anonymous)
 
+    # ok
+    def test_register_request(self):
+        User=get_user_model()
+        user=User.objects.create_user(
+            username='will',
+            email='will@email.com',
+            password='testpass123'
+        )
 
-# Logout Page
-class LogoutPageTestCase(TestCase):
+        self.assertEqual(user.username, 'will')
+        self.assertEqual(user.email, 'will@email.com')
+        self.assertTrue(user.is_active)
 
-    # database test values
-    def setUp(self):
-        self.user=User.objects.create(username='Kisuke ', email='urahara.kisuke@bleach.soul')
-        self.user.set_password('kisukepassword')
-        self.user.save()
-
-    # test if logout page return anonyme user
-    def test_logout(self):
-        self.client.post(reverse('login'), {
-            'username': self.user.username,
-            'password': 'kisukepassword'
-        }, follow=True)
-        self.client.login(username=self.user.username, password=self.user.password)
-        response=self.client.post(reverse('logout'), follow=True)
-        self.client.logout()
-        self.assertTrue(response.context['user'].is_anonymous)
+    def test_register_template(self):
+        self.assertEqual(self.response.status_code, 200)  # 200 is success request
+        self.assertTemplateUsed(self.response, 'register.html')
+        # self.assertContains(self.response, 'Sign Up')
+        self.assertNotContains(
+            self.response, 'Hi there! I should not be on the page.')

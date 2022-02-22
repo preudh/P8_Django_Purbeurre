@@ -15,11 +15,9 @@
                     <br>Trouvez un produit de substitution pour ceux que vous consommez tous les jours<br></p>
                 </div>
                 <div class="input-group" style="padding-bottom: 30px;">
-{#                    <form action="{% url 'search' %}" class="input-group" method="POST">#}
                     <form action="{% url 'search' %}" class="input-group" method="GET">
-                        {% csrf_token %}
                     <input class="form-control" id="searchSubstitut" type="text" name="search" action="{% url 'search' %}"
-                    placeholder="Entrez le nom de la catégorie ou du produit" required>
+                    placeholder="produit ou catégorie" required>
                     <button class="btn btn-danger" type="submit">Chercher</button>
                     </form>
                 </div>

@@ -1,139 +1,177 @@
+from django.test import SimpleTestCase  # don't need database
 from django.test import TestCase
 from unittest.mock import patch  # import of patch decorator from unittest module
 from django.urls import reverse
-from app_data_off.models import Category, Product, UserProduct
+from app_data_off.models import Category, Product, UserProduct  # new
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 # Create your tests here.
 
-# Mention Legal page
-class MentionLegalPageTestCase(TestCase):
 
-    # test the mention legal page return a 200
-    def test_mention_page(self):
+class BasePageTestCase(SimpleTestCase):  # done
+
+    # ok test the base page return a 200 successful http request (a given web page actually exits)
+    def test_base_status_name(self):
+        response=self.client.get('/base/')
+        self.assertEqual(response.status_code, 200)
+
+    # ok testing url return a 200 successful http request
+    def test_base_url_name(self):
+        response=self.client.get(reverse('base'))
+        self.assertEqual(response.status_code, 200)
+
+
+class TermesPageTestCase(SimpleTestCase):  # done
+
+    # ok test the mention legal page return a 200 successful http request
+    def test_termes_status_name(self):
+        response=self.client.get('/termes/')
+        self.assertEqual(response.status_code, 200)
+
+    # ok testing url return a 200 successful http request
+    def test_termes_url_name(self):
         response=self.client.get(reverse('termes'))
         self.assertEqual(response.status_code, 200)
 
 
-# Search Page
-class SearchPageTestCase(TestCase):
+class IndexTestCase(SimpleTestCase):  # done
 
-    # database test values
-    def setUp(self):
-        self.category_mushrooms=Category.objects.create(name='mushrooms')
-        self.magic_food=Product.objects.create(name='magic food', category=self.category_mushrooms, nutrition_grade='a')
-        self.epic_food=Product.objects.create(name='epic food', category=self.category_mushrooms, nutrition_grade='a')
-
-    # test return if the search is valid
-    def test_search_page_returns_200_if_food_found(self):
-        query=self.epic_food.name
-        response=self.client.get(reverse('search'), {'q': query})
+    # ok test the index page return a 200 successful http request
+    def test_index_status_name(self):
+        response=self.client.get('/termes/')
         self.assertEqual(response.status_code, 200)
 
-    # test return 404 if the search is not valid
-    def test_search_page_returns_404_if_not_food_found(self):
-        query='faux_nom_qui_ne_sera_jamais_trouvé'
-        response=self.client.get(reverse('search'), {'q': query})
-        self.assertEqual(response.status_code, 404)
-
-    # test pagination is active
-    def test_search_page_returns_true_pagination_number(self):
-        query=self.epic_food.name
-        response=self.client.get(reverse('search'), {'q': query})
-        self.assertEqual(response.context['paginate'], True)
-
-
-# Detail Page
-class DetailPageTestCase(TestCase):
-
-    # database test values
-    def setUp(self):
-        self.category_mushrooms=Category.objects.create(name='mushrooms')
-        self.magic_food=Product.objects.create(name='magic food', category=self.category_mushrooms)
-
-    # test that detail page returns a 200 if the item exists
-    def test_details_page_returns_200(self):
-        response=self.client.get(reverse('detail', args=(self.magic_food.id,)))
-        self.assertEqual(response.status_code, 200)
-
-    # # test that detail page returns a 404 if the item does not exist
-    def test_details_page_returns_404(self):
-        fake_id=self.magic_food.id + 1
-        response=self.client.get(reverse('detail', args=(fake_id,)))
-        self.assertEqual(response.status_code, 404)
-
-
-# favorite page
-class FavoritePageTestCase(TestCase):
-    def setUp(self):
-        self.user=User.objects.create(username='Zaraki ', email='zaraki.kempachi@bleach.soul')
-        self.user.set_password('zarakipassword')
-        self.user.save()
-
-    # test favorite page redirect to login not logged users
-    def test_favorite_page_redirect_to_login_not_logged_users(self):
-        response=self.client.get(reverse('save'))
-        self.assertRedirects(response, '/index/')
-
-    # test favorite page return 200 for logged users
-    def test_fav_page_return_200(self):
-        self.client.force_login(self.user)
-        response=self.client.get(reverse('save'))
+    # ok testing url return a 200 successful http request
+    def test_index_url_name(self):
+        response=self.client.get(reverse('termes'))
         self.assertEqual(response.status_code, 200)
 
 
-# Backup UserProducts
-class BackupPageTestCase(TestCase):
+class SearchTestCase(TestCase):
+    category=None
 
-    # database test values
-    def setUp(self):
-        self.user=User.objects.create(username='Gin ', email='ichimaru.gin@bleach.soul')
-        self.user.set_password('ginpassword')
-        self.user.save()
-        Category.objects.create(name='mushrooms')
-        self.category_mushrooms=Category.objects.get(name='mushrooms')
-        Product.objects.create(id='1', name='magic food', category=self.category_mushrooms)
-        self.magic_food=Product.objects.get(name='magic food')
+    @classmethod
+    def setUpTestData(cls):
+        """setUpTestData() is called once at the start of the test run for class-level tuning. You can use it to
+        create objects that are not meant to be modified or changed in test methods. """
 
-    # test to add a new backup if user logged
-    def test_new_backup_logged_user(self):
-        food_id=self.magic_food.id
-        old_backup=Product.objects.filter(backup__user_id=self.user).count()
-        self.client.force_login(self.user)
-        self.client.get(reverse('save', args=(food_id,)))
-        new_backup=Product.objects.filter(backup__user_id=self.user).count()
-        self.assertEqual(new_backup, old_backup + 1)
+        cls.user=get_user_model().objects.create_user(
+            username="testuser", email="test@email.com", password="secret",
+            # user_id='1',
+        )
 
-    # test no add a food already on backup
-    def test_no_add_food_already_on_backup_(self):
-        food=Product.objects.filter(name=self.magic_food.name)
-        backup=UserProduct.objects.create(user_id=self.user.id)
-        backup.food.set(food)
-        old_backup=Product.objects.filter(backup__user_id=self.user).count()
-        self.client.force_login(self.user)
-        self.client.get(reverse('save', args=(self.magic_food.id,)))
-        new_backup=Product.objects.filter(backup__user_id=self.user).count()
-        self.assertEqual(new_backup, old_backup)
+        cls.category=Category.objects.create(
+            name="fake_category",
+        )
 
-    # test to add a new backup if user not logged is redirected to login
-    def test_new_backup_user_not_logged(self):
-        food_id=self.magic_food.id
-        response=self.client.get(reverse('save', args=(food_id,)))
-        self.assertRedirects(response, '/index/')
+        cls.product=Product.objects.create(
+            id='558',
+            name='fake_product',
+            brand='fake_brand',
+            store='fake_store',
+            nutrition_grade='a',
+            url='https://world.openfoodfacts.org/product/8886303210207/fake_product',
+            image_front_url='https://images.openfoodfacts.org/images/products/fake_front_fr.jpg',
+            image_nutrition_small_url='https://images.openfoodfacts.org/images/products/fake_nutrition_fr.jpg',
+            category=cls.category,
+        )
 
-    # test if a backup belongs to a contact
-    def test_a_backup_belongs_to_contact(self):
-        food_id=self.magic_food.id
-        self.client.force_login(self.user)
-        self.client.get(reverse('save', args=(food_id,)))
-        backup=UserProduct.objects.first()
-        self.assertEqual(self.user.username, backup.user.username)
+        cls.userproduct=UserProduct.objects.create(
+            product_id='558',
+            user_id='1',
+        )
 
-    # test that a backup belongs to a food
-    def test_a_backup_belongs_to_food(self):
-        food_id=self.magic_food.id
-        self.client.force_login(self.user)
-        self.client.get(reverse('save', args=(food_id,)))
-        backup=Product.objects.get(backup__user_id=self.user.id)
-        self.assertEqual(food_id, backup.id)
+        # Create 9 products for pagination test
+        number_of_products=9
+
+        for product_id in range(number_of_products):
+            Product.objects.create(
+                name=f'Fake_product {id}',
+            )
+
+    # ok
+    def test_search_correct_template(self):
+        response=self.client.get('/search/', {'search': 'fake_product'})
+        self.assertTemplateUsed(response, "search.html")
+
+    # ok
+    def test_search_status_name(self):
+        # test the search page return a 200 successful http request
+        response=self.client.get('/search/', {'search': 'fake_product'})
+        self.assertEqual(response.status_code, 200)
+
+    # ok testing url return a 200 successful http request
+    def test_search_url_name(self):
+        response=self.client.get(reverse('search'), {'search': 'fake_product'})
+        self.assertEqual(response.status_code, 200)
+
+    # ok test will return something when you type category that does exist in the database
+    def test_existing_product_if_found(self):
+        response=self.client.get('/search/', {'search': 'fake_product'})
+        self.assertContains(response, 'fake_product')
+
+    # ok test that it will not return anything when you type product that doesn't exist in the DB
+    def test_non_existing_product_if_found(self):
+        response=self.client.get('/search/', {'search': 'Toto'})
+        self.assertNotContains(response, 'fake_product')
+
+    # ok
+    def test_existing_category_if_found(self):
+        response=self.client.get('/search/', {'search': 'fake_category'})
+        self.assertEquals(response.request["QUERY_STRING"], "search=fake_category")
+        self.assertEquals(response.status_code, 200)
+
+    # ok
+    def test_non_existing_category_if_found(self):
+        response=self.client.get('/search/', {'search': 'toto'})
+        self.assertNotEquals(response.request["QUERY_STRING"], "search=fake_category")
+        self.assertEquals(response.status_code, 200)
+
+    # ok
+    def test_pagination_is_six(self):
+        response=self.client.get(reverse('search'), {'search': 'fake_product'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['paginate'] == True)
+        self.assertTrue(len(response.context['products']) == 6)
+
+    # ok
+    def test_detail(self):
+        response=self.client.get(reverse('detail', args=(self.product.pk,)))
+        no_response=self.client.get("/detail/557")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "fake_product")
+        self.assertTemplateUsed(response, "detail.html")
+        self.assertEqual(no_response.status_code, 404)
+
+    # TODO revoir
+    def test_save(self):
+        # Verify that an user can save a product as favourite.
+        # If product is saved, the result page must redirect to favorite page,
+        # and a new instance is created in UserProduct model with user and product ids.
+        self.client.login(username="testuser", email="test@email.com", password="secret")
+        response=self.client.get(reverse('save', args=(self.product.pk,)))
+        self.assertEqual(response.status_code, 301)
+
+    # ok redirect to index
+    def test_favorite_if_not_login_user(self):
+        response=self.client.get(reverse("favorite"))
+        self.assertEqual(response.status_code, 302)
+
+    # ok
+    def test_favorite_for_logged_in_user(self):
+        self.client.login(username="testuser", email="test@email.com", password="secret")
+        response=self.client.get(reverse("favorite"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.userproduct.id)
+        self.assertTemplateUsed(response, 'favorite.html')
+
+    # TODO
+    def test_remove_favorite_for_logged_in_user(self):
+        self.client.login(username="testuser", email="test@email.com", password="secret")
+        response=self.client.get(reverse('remove', args=(self.product.pk,)))
+        # The server response code 302 means the page is moved temporarily
+        self.assertEqual(response.status_code, 302)
+        # self.assertContains(response, self.product.pk)
+        self.assertRedirects(response, '/favorite')
