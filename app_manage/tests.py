@@ -145,7 +145,7 @@ class SearchTestCase(TestCase):
         self.assertTemplateUsed(response, "detail.html")
         self.assertEqual(no_response.status_code, 404)
 
-    # TODO revoir
+    # ok
     def test_save(self):
         # Verify that an user can save a product as favourite.
         # If product is saved, the result page must redirect to favorite page,
@@ -153,6 +153,7 @@ class SearchTestCase(TestCase):
         self.client.login(username="testuser", email="test@email.com", password="secret")
         response=self.client.get(reverse('save', args=(self.product.pk,)))
         self.assertEqual(response.status_code, 301)
+        self.assertTrue(UserProduct.objects.get(pk=1))
 
     # ok redirect to index
     def test_favorite_if_not_login_user(self):
@@ -167,11 +168,11 @@ class SearchTestCase(TestCase):
         self.assertContains(response, self.userproduct.id)
         self.assertTemplateUsed(response, 'favorite.html')
 
-    # TODO
+    # ok
     def test_remove_favorite_for_logged_in_user(self):
         self.client.login(username="testuser", email="test@email.com", password="secret")
         response=self.client.get(reverse('remove', args=(self.product.pk,)))
         # The server response code 302 means the page is moved temporarily
         self.assertEqual(response.status_code, 302)
-        # self.assertContains(response, self.product.pk)
-        self.assertRedirects(response, '/favorite')
+        with self.assertRaises(UserProduct.DoesNotExist):
+            UserProduct.objects.get(id=1)
