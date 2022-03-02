@@ -31,8 +31,8 @@ def login_request(request):
 class Validator:
     @staticmethod
     # verify single email in the database. Not by default on User Django model.
-    def valid_email_didnt_exist(email):
-        # return User.objects.get(email=email).exists()  # return true if the email already exists
+    def valid_email_exist(email):
+        # return true if the email already exists
         return User.objects.filter(email=email).exists()
 
 
@@ -44,14 +44,14 @@ def register_request(request):
         # kind of Validating data for us (pwd, user already exists or not, etc)
         form=NewUserForm(request.POST)
 
-        # is_valid_username=validator.valid_username_didnt_exist(form.cleaned_data.get('username'))
         if form.is_valid():  # check if the form is valid, return true or false, name is validated here
             # execute the block only if the value is not empty or not False.
             validator=Validator()  # instantiation of the class
-            is_valid_email=validator.valid_email_didnt_exist(form.cleaned_data.get('email'))
-            # if not is_valid_email and not is_valid_username:
+            # form.cleaned_data.get('email')  find if an e-mail had already been registered
+            is_valid_email=validator.valid_email_exist(form.cleaned_data.get('email'))
             if not is_valid_email:
-                user=form.save()  # if the 3 are true (post, is_valid, validator) then information is saved under a user
+                # if post, form.is_valid and is if not is_valid_email are true then information is saved under a user
+                user=form.save()  
                 login(request, user)  # log the user in
                 #  the user is redirected to my_account page showing a success message.
                 return redirect('/my_account/')
