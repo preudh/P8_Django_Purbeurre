@@ -97,7 +97,7 @@ def detail(request, product_id):
 
 @login_required(login_url='/login/')
 def save(request, product_id):
-    """ . """
+    """ save a product choosed as a substitute . """
 
     if request.method == 'POST':
         user_id=request.user.id
@@ -114,7 +114,6 @@ def save(request, product_id):
 
 
 @login_required(login_url='/login/')
-# @login_required()
 def favorite(request):
     user_id=request.user.id
     fav_products=UserProduct.objects.filter(user_id=user_id)
@@ -144,5 +143,4 @@ def remove_favorite(request, pk):
         return redirect('/favorite/')
     # else:
     return redirect('/index', permanent=True)
-        # return redirect('/index', permanent=True)
-        # return redirect('/index')
+

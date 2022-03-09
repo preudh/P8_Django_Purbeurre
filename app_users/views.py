@@ -56,7 +56,8 @@ def register_request(request):
                 #  the user is redirected to my_account page showing a success message.
                 return redirect('/my_account/')
             else:
-                # if the form is not valid, an error message is shown
+                # if the form is not valid, an error message is shown.
+                # general answer to avoid telling insiders threats that the email already exist
                 error="Username ou Addresse de courriel déjà utilisés par un autre utilisateur!"
                 context={
                     "register_form": form,
