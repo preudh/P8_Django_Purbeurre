@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import SearchForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.urls import reverse
 # personal import
 from app_data_off.models import Product, Category, UserProduct
 from app_data_off.management.commands.constante import list_categories

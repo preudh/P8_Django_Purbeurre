@@ -1,9 +1,7 @@
 from django.test import SimpleTestCase  # don't need database
 from django.test import TestCase
-from unittest.mock import patch  # import of patch decorator from unittest module
 from django.urls import reverse
 from app_data_off.models import Category, Product, UserProduct  # new
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 
@@ -69,12 +67,6 @@ class SearchTestCase(TestCase):
         cls.product=Product.objects.create(
             id='558',
             name='fake_product',
-            brand='fake_brand',
-            store='fake_store',
-            nutrition_grade='a',
-            url='https://world.openfoodfacts.org/product/8886303210207/fake_product',
-            image_front_url='https://images.openfoodfacts.org/images/products/fake_front_fr.jpg',
-            image_nutrition_small_url='https://images.openfoodfacts.org/images/products/fake_nutrition_fr.jpg',
             category=cls.category,
         )
 
