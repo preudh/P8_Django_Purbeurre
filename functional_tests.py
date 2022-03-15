@@ -72,40 +72,6 @@ class UserTasks:
         self.driver.find_element(By.CSS_SELECTOR, ".btn-primary").click()
         time.sleep(3)
 
-    def test_termes(self):
-        # Test name: test_termes
-        # Step # | name | target | value
-        # 1 | open | / |
-        self.driver.get("http://127.0.0.1:8000/")
-        # time.sleep(3)
-        # 2 | click | linkText=Mentions légales |
-        self.driver.find_element(By.ID, "termes").click()
-        # self.driver.find_element(By.PARTIAL_LINK_TEXT, "// a[ @ id='termes']").click()
-        time.sleep(3)
-        # relative pathe
-        # // a[ @ id='termes']
-        # #JS
-        # document.querySelector("#termes")
-        # #CSS
-        # termes
-        # document.querySelector("#termes")
-        # # test rigor path
-        # "Mentions légales"
-        # # abs path
-        # / html[1] / body[1] / footer[1] / div[1] / div[1] / div[1] / a[1]
-        # #
-
-    def test_contact(self):
-        # verify that contacts are di_splayed at the bottom page
-        # Test name: contact
-        # Step # | name | target | value
-        # 1 | open | / |
-        self.driver.get("http://127.0.0.1:8000/")
-        # time.sleep(1)
-        # 2 | click | linkText=Contact |
-        self.driver.find_element(By.LINK_TEXT, "Contact").click()
-        # time.sleep(3)
-
     def test_search(self):
         # verify input search with category ou product redirect to substitutes pages
         # Test name: search
@@ -146,7 +112,6 @@ class UserTasks:
         time.sleep(3)
 
     def test_favorite(self):
-        # TODO PROBLEM
         # Test name: favorite
         # Step # | name | target | value
         # 1 | open | / |
@@ -157,7 +122,6 @@ class UserTasks:
         time.sleep(3)
 
     def test_remove_favorite(self):
-        # TODO PROBLEM
         # Test name: test_remove_favorite
         # Step # | name | target | value
         # 1 | open | /favorite/ |
@@ -168,7 +132,6 @@ class UserTasks:
         time.sleep(3)
 
     def test_logout(self):
-        # TODO TO VALIDATE AFTER
         # Test name: test_logout
         # Step # | name | target | value
         # 1 | open | / |
@@ -179,10 +142,9 @@ class UserTasks:
         time.sleep(3)
 
     def launch_test(self):
+        """Test scenario"""
         self.test_register()
         self.test_enter_login()
-        # self.test_termes()
-        # self.test_contact()
         self.test_search()
         self.test_save()
         self.test_detail()

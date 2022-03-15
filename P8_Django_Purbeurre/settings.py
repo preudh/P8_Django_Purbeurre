@@ -10,32 +10,43 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-# import django_heroku
+import django_heroku
 from pathlib import Path
+import environ  # to outsource the env variables, not to be seen on GitHub
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR=Path(__file__).resolve().parent.parent
+# read_env is a method inside environ and relative pass .env path with concatenation of BASE-DIR with .env path
+environ.Env.read_env(env_file=str(BASE_DIR / "P8_Django_Purbeurre" / ".env"))
+
+
+env = environ.Env()  # create instance environment
+
 # BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY='django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = env.bool("Debug", False)
 
-ALLOWED_HOSTS=[]
 
-""" To do :  after put heroku url"""
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG=False
-else:
-    DEBUG=True
+# """ To do :  after put heroku url"""
+# if os.environ.get('ENV') == 'PRODUCTION':
+#     DEBUG=False
+# else:
+#     DEBUG=True
 
-ALLOWED_HOSTS=['127.0.0.1']
+# ALLOWED_HOSTS=env.list("ALLOWED_HOSTS")
+# print(SECRET_KEY)
+# print(DEBUG)
+# print(type(DEBUG))
+# print(ALLOWED_HOSTS)
+
 
 # Application definition
 
@@ -57,6 +68,7 @@ INSTALLED_APPS=[
 ]
 
 MIDDLEWARE=[
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,7 +143,7 @@ USE_I18N=True
 
 USE_L10N=True
 
-USE_TZ= True  # True to take in charge local time = TIME_ZONE
+USE_TZ=True  # True to take in charge local time = TIME_ZONE
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -160,4 +172,5 @@ CRISPY_ALLOWED_TEMPLATE_PACKS="bootstrap5"
 
 CRISPY_TEMPLATE_PACK="bootstrap5"
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
+
