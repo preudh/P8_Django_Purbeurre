@@ -12,16 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import django_heroku
 from pathlib import Path
-import environ  # to outsource the env variables, not to be seen on GitHub
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR=Path(__file__).resolve().parent.parent
-# read_env is a method inside environ and relative pass .env path with concatenation of BASE-DIR with .env path
-environ.Env.read_env(env_file=str(BASE_DIR / "P8_Django_Purbeurre" / ".env"))
-
-
-env = environ.Env()  # create instance environment
 
 # BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -29,24 +23,12 @@ env = environ.Env()  # create instance environment
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY="django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("Debug", False)
+DEBUG=True
 
-
-# """ To do :  after put heroku url"""
-# if os.environ.get('ENV') == 'PRODUCTION':
-#     DEBUG=False
-# else:
-#     DEBUG=True
-
-# ALLOWED_HOSTS=env.list("ALLOWED_HOSTS")
-# print(SECRET_KEY)
-# print(DEBUG)
-# print(type(DEBUG))
-# print(ALLOWED_HOSTS)
-
+ALLOWED_HOSTS=['127.0.0.1', 'localhost', 'purbeurre-ocp8.herokuapp.com']
 
 # Application definition
 
@@ -113,6 +95,7 @@ DATABASES={
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -152,16 +135,16 @@ STATIC_URL='/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR, '/static/'),
 ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static'),
 # ]
 
-if DEBUG:
-    STATICFILES_DIRS=[
-        os.path.join(BASE_DIR, 'static')]
-else:
-    STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+# if DEBUG:
+#     STATICFILES_DIRS=[
+#         os.path.join(BASE_DIR, 'static')]
+# else:
+#     STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -172,5 +155,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS="bootstrap5"
 
 CRISPY_TEMPLATE_PACK="bootstrap5"
 
-django_heroku.settings(locals())
+""" To do for heroku """
+# if we are local the directory it's not going to be this but that is what is happening on heroku
+if os.getcwd() == '/app':
+    DEBUG=False
 
+django_heroku.settings(locals())

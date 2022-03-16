@@ -48,10 +48,7 @@ python manage.py cm_db
 
 * with heroku
 
-You can view the application here: https:...............
-
-
-### Examples
+You can view the application here: https://purbeurre-ocp8.herokuapp.com/
 
 You can search alternatives for these categories (e.g.):
 
