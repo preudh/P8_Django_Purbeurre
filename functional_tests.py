@@ -105,7 +105,7 @@ class UserTasks:
         # Test name: detail
         # Step # | name | target | value
         # 1 | open | /detail/496 |
-        self.driver.get("http://127.0.0.1:8000/detail/496")
+        self.driver.get("http://127.0.0.1:8000/detail/2358")
         time.sleep(1)
         # 2 | click | css=.btn-primary |
         self.driver.find_element(By.CSS_SELECTOR, ".btn-primary").click()
