@@ -28,6 +28,7 @@ SECRET_KEY="django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG=True
+# DEBUG=False
 
 ALLOWED_HOSTS=['127.0.0.1', 'localhost', 'purbeurre-ocp8.herokuapp.com']
 
@@ -67,7 +68,6 @@ TEMPLATES=[
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-        # 'DIRS': [BASE_DIR, 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -149,7 +149,7 @@ CRISPY_TEMPLATE_PACK="bootstrap5"
 
 """ To do for heroku """
 # if we are local the directory it's not going to be this but that is what is happening on heroku
-if os.getcwd() == '/app':
-    DEBUG=False
+# if os.getcwd() == '/app':
+#     DEBUG=False
 
 django_heroku.settings(locals())
