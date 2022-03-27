@@ -30,7 +30,7 @@ SECRET_KEY="django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
 DEBUG=True
 # DEBUG=False
 
-ALLOWED_HOSTS=['127.0.0.1', 'localhost', 'purbeurre-ocp8.herokuapp.com']
+ALLOWED_HOSTS=['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Application definition
 
