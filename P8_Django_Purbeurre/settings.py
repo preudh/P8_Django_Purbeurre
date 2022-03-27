@@ -24,17 +24,17 @@ BASE_DIR=Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY="django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
+SECRET_KEY = "django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG=True
-DEBUG=False
+DEBUG = False
 
-ALLOWED_HOSTS=['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Application definition
 
-INSTALLED_APPS=[
+INSTALLED_APPS = [
     'app_data_off.apps.DataoffConfig',
     'app_manage.apps.AppManageConfig',
     'app_users.apps.LogincreateConfig',
@@ -44,6 +44,7 @@ INSTALLED_APPS=[
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd Party
     'widget_tweaks',
     'crispy_forms',
     'crispy_bootstrap5',
@@ -51,7 +52,7 @@ INSTALLED_APPS=[
 
 ]
 
-MIDDLEWARE=[
+MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -62,12 +63,13 @@ MIDDLEWARE=[
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF='P8_Django_Purbeurre.urls'
+ROOT_URLCONF = 'P8_Django_Purbeurre.urls'
 
 TEMPLATES=[
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        # 'DIRS': [BASE_DIR / 'templates'],
+        "DIRS": [str(BASE_DIR.joinpath("templates"))],  # new
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,12 +82,12 @@ TEMPLATES=[
     },
 ]
 
-WSGI_APPLICATION='P8_Django_Purbeurre.wsgi.application'
+WSGI_APPLICATION = 'P8_Django_Purbeurre.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES={
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'purbeurre',
@@ -100,7 +102,7 @@ DATABASES={
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS=[
+AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -119,20 +121,20 @@ AUTH_PASSWORD_VALIDATORS=[
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 # LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE='fr'
+LANGUAGE_CODE = 'fr'
 
-TIME_ZONE='UTC'
+TIME_ZONE = 'UTC'
 
-USE_I18N=True
+USE_I18N = True
 
-USE_L10N=True
+USE_L10N = True
 
-USE_TZ=True  # True to take in charge local time = TIME_ZONE
+USE_TZ = True  # True to take in charge local time = TIME_ZONE
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL="/static/"
+STATIC_URL = "/static/"
 # STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static/')
 # ]
 STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
@@ -143,11 +145,11 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage" 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRISPY_ALLOWED_TEMPLATE_PACKS="bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
-CRISPY_TEMPLATE_PACK="bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 """ To do for heroku """
 # if we are local the directory it's not going to be this but that is what is happening on heroku
