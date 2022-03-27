@@ -27,8 +27,8 @@ BASE_DIR=Path(__file__).resolve().parent.parent
 SECRET_KEY="django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG=True
-DEBUG=False
+DEBUG=True
+# DEBUG=False
 
 ALLOWED_HOSTS=['127.0.0.1', 'localhost', 'purbeurre-ocp8.herokuapp.com']
 
@@ -132,11 +132,13 @@ USE_TZ=True  # True to take in charge local time = TIME_ZONE
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL='static/'
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR, 'static/'),
-]
-STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+STATIC_URL="/static/"
+# STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static/')
+# ]
+STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
+# STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
