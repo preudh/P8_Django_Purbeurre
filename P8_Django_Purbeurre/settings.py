@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 
 import django_heroku  # This is a Django library for Heroku applications
+import dj_database_url
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
@@ -30,7 +31,8 @@ SECRET_KEY = "django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8
 # DEBUG=True
 DEBUG = False
 
-ALLOWED_HOSTS = ['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -135,11 +137,12 @@ USE_TZ = True  # True to take in charge local time = TIME_ZONE
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-# STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static/')
-# ]
-STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
-# STATIC_ROOT=os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
+STATICFILES_DIRS = [os.path.join(BASE_DIR, '/static/')]
+STATIC_ROOT=(os.path.join(BASE_DIR, 'staticfiles'),)
+# STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
+
+
+# STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
 
 # Default primary key field type
