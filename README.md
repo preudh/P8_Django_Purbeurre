@@ -26,7 +26,7 @@ customers to find healthy alternatives (better nutriscore) :
 ### Utilisation and softwares needeed
 *in your local desktop
 * Set up virtual environment in your IDE (e.g. Pycharm or VSC)
-* Use python 3.7 as a base interpreter 
+* Use python 3.9 as a base interpreter 
 * see the settings in pycharm for instance![img.png](img.png)
 * create your database (e.g. with pgadmin 4)
 * settings of the database in settings.py

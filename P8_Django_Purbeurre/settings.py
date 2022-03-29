@@ -137,10 +137,8 @@ USE_TZ = True  # True to take in charge local time = TIME_ZONE
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, '/static/')]
-# STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
-STATIC_ROOT=os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
+STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))] # new
+STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
