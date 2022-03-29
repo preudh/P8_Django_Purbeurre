@@ -1,1 +1,1 @@
-web: gunicorn purbeurre-ocp8.wsgi
+web: gunicorn purbeurre-ocp8.wsgi:application --log-file -
