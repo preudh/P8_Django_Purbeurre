@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'P8_Django_Purbeurre.settings')
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'P8_Django_Purbeurre.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'P8_Django_Purbeurre.settings.prod')  # new
 
 application = get_wsgi_application()

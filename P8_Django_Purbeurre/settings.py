@@ -17,7 +17,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR=Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -67,7 +67,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'P8_Django_Purbeurre.urls'
 
-TEMPLATES=[
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 'DIRS': [BASE_DIR / 'templates'],
@@ -99,7 +99,6 @@ DATABASES = {
         'PORT': '5432'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -137,8 +136,9 @@ USE_TZ = True  # True to take in charge local time = TIME_ZONE
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))] # new
+# STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
 STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # new 3003
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
