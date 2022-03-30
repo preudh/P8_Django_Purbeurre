@@ -17,9 +17,9 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
-# BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # new3003
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG=True
+DEBUG = True
 # DEBUG = False
 
 ALLOWED_HOSTS = ['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
@@ -135,10 +135,18 @@ USE_TZ = True  # True to take in charge local time = TIME_ZONE
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
-# STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
-STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # new 3003
+# STATIC_URL = "/static/"
+# # STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
+# STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # new 3003
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
