@@ -135,11 +135,10 @@ USE_TZ = True  # True to take in charge local time = TIME_ZONE
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/" # ok
+STATIC_URL = "/static/"  # ok
 # STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
 STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # new 3003
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
