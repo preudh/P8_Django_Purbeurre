@@ -1,1 +1,1 @@
-web: gunicorn purbeurre-ocp8.wsgi
+web: gunicorn P8_Django_Purbeurre.wsgi
