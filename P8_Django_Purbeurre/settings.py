@@ -19,7 +19,6 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # new3003
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -29,10 +28,8 @@ SECRET_KEY = "django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = False
 
 ALLOWED_HOSTS = ['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
-# ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -137,7 +134,7 @@ USE_TZ = True  # True to take in charge local time = TIME_ZONE
 
 STATIC_URL = "/static/"  # ok
 STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]  # new
-STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # new
+STATIC_ROOT = str(BASE_DIR.joinpath("static"))  # puts static files in static directory
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # new 3003
 
 # Default primary key field type
@@ -150,8 +147,4 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 """ To do for heroku """
-# if we are local the directory it's not going to be this but that is what is happening on heroku
-# if os.getcwd() == '/app':
-#     DEBUG=False
-
 django_heroku.settings(locals())

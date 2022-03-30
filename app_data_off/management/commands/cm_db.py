@@ -16,11 +16,17 @@ class Command(DebugMixin, BaseCommand):
 
         try:
             # function connect to the existing database, a new connection instance
-            conn = psycopg2.connect(user="postgres",
-                                    password="postgre",
-                                    host="localhost",
-                                    port="5432",
-                                    database="purbeurre"
+            # conn = psycopg2.connect(user="postgres",
+            #                         password="postgre",
+            #                         host="localhost",
+            #                         port="5432",
+            #                         database="purbeurre"
+            #                         )
+            conn = psycopg2.connect(user = "wwhgcmaufvmdym",
+                                    password = "dd13375f6d9d34aacd905d3aed15ebdf8cee5c90f8bca4833b507cc39b7d228a",
+                                    host = "ec2-54-155-5-151.eu-west-1.compute.amazonaws.com",
+                                    port = "5432",
+                                    database = "dd2ii9dfa8b5jh"
                                     )
 
             # create a cursor to perform database operations

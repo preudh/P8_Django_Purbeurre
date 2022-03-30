@@ -22,7 +22,7 @@ def get_product_off():
 
     for category in list_categories:  # start of outer loop
         cat_id=Category.objects.create(name=category)
-        #  To get all products for agiven category without pagination (returns a generator):
+        #  To get all products for a given category without pagination (returns a generator):
         for product in openfoodfacts.products.get_all_by_category(category):  # start of inner loop for
             try:
                 name=product.get("product_name", None)
