@@ -15,6 +15,7 @@ class Command(DebugMixin, BaseCommand):
         conn = None
 
         try:
+            # !!!to use for local database
             # function connect to the existing database, a new connection instance
             # conn = psycopg2.connect(user="postgres",
             #                         password="postgre",
@@ -22,6 +23,8 @@ class Command(DebugMixin, BaseCommand):
             #                         port="5432",
             #                         database="purbeurre"
             #                         )
+
+            # !!!to use only for heroku database according to the env variable given by heroku
             conn = psycopg2.connect(user = "wwhgcmaufvmdym",
                                     password = "dd13375f6d9d34aacd905d3aed15ebdf8cee5c90f8bca4833b507cc39b7d228a",
                                     host = "ec2-54-155-5-151.eu-west-1.compute.amazonaws.com",
