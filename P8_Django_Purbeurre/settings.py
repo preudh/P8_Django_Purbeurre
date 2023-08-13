@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
 
 import django_heroku  # This is a Django library for Heroku applications
 import dj_database_url
@@ -19,15 +21,14 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^a#59(+zq#hg3#=p+aejc%znju13kz(a$#yln_ly4!ee7pl$f8"
+SECRET_KEY = os.environ.get("SECRET_KEY")  # take secret key from environment variables
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")  # take debug from environment variables
 
 ALLOWED_HOSTS = ['purbeurre-ocp8.herokuapp.com', '127.0.0.1', 'localhost']
 
@@ -86,14 +87,15 @@ WSGI_APPLICATION = 'P8_Django_Purbeurre.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'purbeurre',
-        'USER': 'postgres',
-        'PASSWORD': 'postgre',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
 
