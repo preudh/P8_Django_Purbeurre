@@ -4,7 +4,9 @@ from django.core.management.base import BaseCommand
 from django_command_debug.management.base import DebugMixin
 from app_data_off.views import drop_everythings, get_product_off
 
-import psycopg2  # Psycopg – PostgreSQL database adapter for Python¶
+import dj_database_url
+import psycopg2
+import os
 
 
 class Command(DebugMixin, BaseCommand):
@@ -15,22 +17,9 @@ class Command(DebugMixin, BaseCommand):
         conn = None
 
         try:
-            # !!!to use for local database
-            # function connect to the existing database, a new connection instance
-            # conn = psycopg2.connect(user="postgres",
-            #                         password="postgre",
-            #                         host="localhost",
-            #                         port="5432",
-            #                         database="purbeurre"
-            #                         )
-
-            # !!!to use only for heroku database according to the env variable given by heroku
-            conn = psycopg2.connect(user = "bsbqxotcpkkwoq",
-                                    password = "661970a89a0e5b304278e2908081806276b50e445752fe226c64e2b5ea577999",
-                                    host = "ec2-52-215-68-14.eu-west-1.compute.amazonaws.com",
-                                    port = "5432",
-                                    database = "dbbfeb2rj2ljjc"
-                                    )
+            # Configure database connection using Heroku DATABASE_URL
+            DATABASE_URL = os.environ.get('DATABASE_URL')
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
             # create a cursor to perform database operations
             cursor = conn.cursor()
