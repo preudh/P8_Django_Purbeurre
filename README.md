@@ -26,7 +26,7 @@ customers to find healthy alternatives (better nutriscore) :
 ### Utilisation and softwares needeed
 *in your local desktop
 * Set up virtual environment in your IDE (e.g. Pycharm or VSC)
-* Use python 3.9 as a base interpreter 
+* Use python 3.11.4 as a base interpreter for heroku 
 * create your database (e.g. with pgadmin 4)
 * settings of the database in settings.py
 * make migrations 
@@ -47,7 +47,7 @@ python manage.py cm_db
 
 * with heroku
 
-You can view the application here: https://purbeurre-ocp8.herokuapp.com/
+You can view the application here: https://p8-django-purbeurre-37bbf40223b7.herokuapp.com/
 
 You can search alternatives for these categories (e.g.):
 
