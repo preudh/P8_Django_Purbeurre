@@ -14,7 +14,6 @@ from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
 
-
 import django_heroku  # This is a Django library for Heroku applications
 import dj_database_url
 from pathlib import Path
@@ -30,10 +29,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")  # take secret key from environment variables
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")  # take debug from environment variables
+# DEBUG = os.environ.get("DEBUG")  # take debug from environment variables
+DEBUG = os.environ.get("DEBUG") == "True"
+
+
 
 ALLOWED_HOSTS = ['p8-django-purbeurre-37bbf40223b7.herokuapp.com', '127.0.0.1', 'localhost']
-
 
 # Application definition
 
@@ -52,7 +53,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_command_debug',
-
 ]
 
 MIDDLEWARE = [
