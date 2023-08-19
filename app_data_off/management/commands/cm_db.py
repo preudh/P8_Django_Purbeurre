@@ -25,11 +25,11 @@ class Command(DebugMixin, BaseCommand):
             #                         )
 
             # !!!to use only for heroku database according to the env variable given by heroku
-            conn = psycopg2.connect(user = "wwhgcmaufvmdym",
-                                    password = "dd13375f6d9d34aacd905d3aed15ebdf8cee5c90f8bca4833b507cc39b7d228a",
-                                    host = "ec2-54-155-5-151.eu-west-1.compute.amazonaws.com",
+            conn = psycopg2.connect(user = "bsbqxotcpkkwoq",
+                                    password = "661970a89a0e5b304278e2908081806276b50e445752fe226c64e2b5ea577999",
+                                    host = "ec2-52-215-68-14.eu-west-1.compute.amazonaws.com",
                                     port = "5432",
-                                    database = "dd2ii9dfa8b5jh"
+                                    database = "dbbfeb2rj2ljjc"
                                     )
 
             # create a cursor to perform database operations
