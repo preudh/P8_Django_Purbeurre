@@ -1,17 +1,20 @@
 import time
-
-# selenium 4
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 
-driver=webdriver.Chrome(executable_path=ChromeDriverManager().install())
-driver.maximize_window()  # maximize the browser window
+# path to chromedriver.exe
+driver_path = "C:/ProjetsOC/P8/chromedriver.exe"
+service = Service(driver_path)
+driver = webdriver.Chrome(service = service)
+
+# Maximize the browser window
+driver.maximize_window()
 
 
 class UserTasks:
     def __init__(self):
-        self.driver=driver
+        self.driver = driver
 
     def test_register(self):
         #  Verify Customer Registration
@@ -153,5 +156,8 @@ class UserTasks:
         self.test_logout()
 
 
-userstories=UserTasks()
+userstories = UserTasks()
 userstories.launch_test()
+
+# Close the browser window
+driver.quit()
