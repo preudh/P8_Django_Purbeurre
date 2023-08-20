@@ -157,5 +157,6 @@ Thumbs.db
 # profiling data
 .prof
 
-
+# functional_test.py
+functional_test.py
 # End of https://www.toptal.com/developers/gitignore/api/django
