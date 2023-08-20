@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
-# path to chromedriver.exe
+# path to chromedriver.exe, use the correct path for your computer and your version of Chrome (windows here)
 driver_path = "C:/ProjetsOC/P8/chromedriver.exe"
 service = Service(driver_path)
 driver = webdriver.Chrome(service = service)
